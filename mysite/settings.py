@@ -31,12 +31,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'clothes.apps.ClothesConfig',
+    'media.apps.MediaConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -75,10 +79,25 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'django',
+        'USER': 'rami',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '3306'
     }
 }
+
+# from http://www.morethanseven.net/2009/02/11/django-settings-tip-setting-relative-paths/
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "..",  "static") , 
+   
+
+]
+MEDIA_ROOT = os.path.join("..",  "static")
+
 
 
 # Password validation
@@ -118,3 +137,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+
+}

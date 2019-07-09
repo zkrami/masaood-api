@@ -1,0 +1,33 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "run server",
+            "type": "shell",
+            "command": "python3 manage.py runserver 0:8080",
+            "problemMatcher": []
+        } ,
+        
+        {
+            "label": "make and migrate ",
+            "type": "shell",
+            "command": "python3 manage.py makemigrations ; python3 manage.py migrate ",
+            "problemMatcher": []
+        } ,
+        {
+            "label": "make migrations",
+            "type": "shell",
+            "command": "python3 manage.py makemigrations ",
+            "problemMatcher": []
+        } ,
+        {
+            "label": "migrate",
+            "type": "shell",
+            "command": "python3 manage.py migrate",
+            "problemMatcher": []
+        } 
+        
+    ]
+}
