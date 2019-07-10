@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, CreateModelMixin
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, CreateModelMixin ,  RetrieveModelMixin
 from rest_framework.response import Response
 import rest_framework.status
 from rest_framework.exceptions import ParseError
@@ -10,7 +10,7 @@ from .serializers import MediaSerializer
 
 
 # ViewSet which inherit default list and retrieve implementation
-class MediaViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
+class MediaViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin ):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
     permission_classes = ()

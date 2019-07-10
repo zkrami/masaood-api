@@ -4,9 +4,7 @@ from .models import Media
 
 
 class MediaSerializer(ModelSerializer):
-    
     class Meta:
         model = Media
         fields = ('file',  'createdAt')
-
-    #todo 
+    #todo

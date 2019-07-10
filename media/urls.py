@@ -2,7 +2,7 @@
 from rest_framework import routers
 from .views import MediaViewSet
 router = routers.SimpleRouter()
-router.register('', MediaViewSet)
+router.register('medias', MediaViewSet)
 
 
 urlpatterns = router.get_urls() 

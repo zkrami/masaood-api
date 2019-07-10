@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'clothes.apps.ClothesConfig',
+    'product.apps.ProductConfig',
     'media.apps.MediaConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -92,12 +92,11 @@ DATABASES = {
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "..",  "static") , 
-   
+    os.path.join(BASE_DIR, "..",  "static"),
+
 
 ]
 MEDIA_ROOT = os.path.join("..",  "static")
-
 
 
 # Password validation
