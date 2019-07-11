@@ -56,9 +56,12 @@ class Product(models.Model):
 
     size = models.ForeignKey(Size, on_delete=models.CASCADE)
     abstractProduct = models.ForeignKey(
-        AbstractProduct, on_delete=models.CASCADE)
+        AbstractProduct, on_delete=models.CASCADE , related_name="products")
 
     createdAt = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.abstractProduct.nameAr + self.size.nameAr
+
+    class Meta:
+        unique_together = ('size', 'abstractProduct',)

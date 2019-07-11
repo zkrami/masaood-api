@@ -17,19 +17,6 @@ class GradeSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class AbstractProductSerializer(ModelSerializer):
-
-    class Meta:
-        model = AbstractProduct
-        exclude = ('createdAt',)
-
-
-class AbstractProductDetailSerializer(ModelSerializer):
-
-    class Meta:
-        model = AbstractProduct
-        exclude = ('createdAt',)
-        depth = 1
 
 
 class ProductSerializer(ModelSerializer):
@@ -45,3 +32,19 @@ class ProductDetailSerializer(ModelSerializer):
         model = Product
         exclude = ('createdAt',)
         depth = 1
+
+
+
+class AbstractProductDetailSerializer(ModelSerializer):
+    products = ProductDetailSerializer(many=True , read_only=True)
+    class Meta:
+        model = AbstractProduct
+        fields = "__all__"
+        depth = 1
+
+
+class AbstractProductSerializer(ModelSerializer):
+
+    class Meta:
+        model = AbstractProduct
+        exclude = ('createdAt',)
