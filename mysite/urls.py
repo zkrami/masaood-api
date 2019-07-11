@@ -22,7 +22,10 @@ from rest_framework.urls import url
 
 urlpatterns = [
     path('', include('product.urls')),
-    path('', include('media.urls')),    
+    path('', include('media.urls')),
+    path('', include('center.urls')),
+    path('', include('mobileauth.urls')),
+    path('', include('order.urls')),
     path('admin', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
