@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, RelatedField
-from .models import AbstractProduct, Grade, Size
+from .models import AbstractProduct, Grade, Size, Product
 # Create your models here.
 
 
@@ -21,5 +21,27 @@ class AbstractProductSerializer(ModelSerializer):
 
     class Meta:
         model = AbstractProduct
+        exclude = ('createdAt',)
+
+
+class AbstractProductDetailSerializer(ModelSerializer):
+
+    class Meta:
+        model = AbstractProduct
+        exclude = ('createdAt',)
+        depth = 1
+
+
+class ProductSerializer(ModelSerializer):
+
+    class Meta:
+        model = Product
+        exclude = ('createdAt',)
+
+
+class ProductDetailSerializer(ModelSerializer):
+
+    class Meta:
+        model = Product
         exclude = ('createdAt',)
         depth = 1

@@ -1,6 +1,7 @@
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
-from .models import AbstractProduct, Size, Grade
-from .serializers import AbstractProductSerializer, SizeSerializer, GradeSerializer
+from .models import AbstractProduct, Size, Grade, Product
+from .serializers import AbstractProductSerializer, SizeSerializer, GradeSerializer, AbstractProductDetailSerializer, ProductSerializer, ProductDetailSerializer
+from shared.mixins.per_action_serializer import PerActionSerializerMixin
 
 
 class SizeViewSet(ModelViewSet):
@@ -15,10 +16,21 @@ class GradeViewSet(ModelViewSet):
     permission_classes = ()
 
 
-class AbstractProductViewSet(ModelViewSet):
+class AbstractProductViewSet(PerActionSerializerMixin, ModelViewSet):
     queryset = AbstractProduct.objects.all()
     serializer_class = AbstractProductSerializer
-    permission_classes = () 
+    permission_classes = ()
+    serializer_action_classes = {
+        'list': AbstractProductDetailSerializer,
+        'retrieve': AbstractProductDetailSerializer
+    }
 
 
-
+class ProductViewSet(PerActionSerializerMixin, ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = ()
+    serializer_action_classes = {
+        'list': ProductDetailSerializer,
+        'retrieve': ProductDetailSerializer
+    }

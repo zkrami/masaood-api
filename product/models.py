@@ -19,6 +19,9 @@ class Size(models.Model):
     code = models.CharField(max_length=255, default='')
     createdAt = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.nameAr
+
 
 class AbstractProduct(models.Model):
 
@@ -47,3 +50,15 @@ class AbstractProduct(models.Model):
 
     def __str__(self):
         return self.nameEn
+
+
+class Product(models.Model):
+
+    size = models.ForeignKey(Size, on_delete=models.CASCADE)
+    abstractProduct = models.ForeignKey(
+        AbstractProduct, on_delete=models.CASCADE)
+
+    createdAt = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.abstractProduct.nameAr + self.size.nameAr
