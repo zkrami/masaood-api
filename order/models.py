@@ -26,8 +26,10 @@ class Order(models.Model):
 
 class OrderProduct(models.Model):
     count = models.IntegerField()
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE , related_name='products')
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, related_name='products')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    createdAt = models.DateTimeField(auto_now=True)
 
     class Meta:
         unique_together = ('order', 'product',)

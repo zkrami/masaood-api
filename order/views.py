@@ -14,8 +14,4 @@ class OrderViewSet(PerActionSerializerMixin, ModelViewSet):
         'retrieve': OrderDetailSerialier
     }
 
-    def create(self, request, *args, **kwargs):
-        
-        request.data["user"] = request.user.id 
-        
-        return super().create(request , *args , **kwargs)
+   
