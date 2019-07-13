@@ -6,15 +6,13 @@ from .models import AbstractProduct, Grade, Size, Product
 class SizeSerializer(ModelSerializer):
     class Meta:
         model = Size
-        execlude = ("createdAt", )
-        fields = "__all__"
+        exclude = ("createdAt", )
 
 
 class GradeSerializer(ModelSerializer):
     class Meta:
         model = Grade
-        execlude = ("createdAt",)
-        fields = "__all__"
+        exclude = ("createdAt",)
 
 
 
