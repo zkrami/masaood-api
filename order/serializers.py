@@ -18,9 +18,7 @@ class OrderSerialier(WritableNestedModelSerializer):
     # one of them required in case of absence of center
 
     products = OrderProductSerializer(many=True)
-    user = serializers.HiddenField(
-        default=serializers.CurrentUserDefault()
-    )
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Order
@@ -28,7 +26,7 @@ class OrderSerialier(WritableNestedModelSerializer):
 
 
 class OrderDetailSerialier(ModelSerializer):
-    products = OrderProductSerializer(many=True , read_only=True)
+    products = OrderProductSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order
