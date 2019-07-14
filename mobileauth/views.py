@@ -17,11 +17,11 @@ class MobileAuthViewSet(viewsets.ViewSet):
         code = get_random_string(length=6, allowed_chars='1234567890')
         code = '666666'
         # @todo send code to phone
-        
-        VerificationToken.objects.create(key=mobile, code=code)
-        User.objects.get_or_create(mobile=mobile)
 
-        return Response("Code created successfully")
+        VerificationToken.objects.create(key=mobile, code=code)
+        user, created = User.objects.get_or_create(mobile=mobile)
+
+        return Response({"message": "Created successfully", "created": created})
 
     @action(detail=False, methods=['post'])
     def verify(self, request):
