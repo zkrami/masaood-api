@@ -6,6 +6,12 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     mobile = models.CharField(max_length=255, unique=True)
+
+    username = models.CharField(
+        max_length=150,
+        unique=False,
+    )
+
     def __str__(self):
-        return self.username 
+        return self.username
     pass
