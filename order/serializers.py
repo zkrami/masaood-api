@@ -25,8 +25,15 @@ class OrderSerialier(WritableNestedModelSerializer):
         exclude = ('createdAt', 'status')
 
 
+class OrderProductDetailSerializer(ModelSerializer):
+    class Meta:
+        model = OrderProduct
+        exclude = ("createdAt", "order", )
+        depth = 2
+
+
 class OrderDetailSerialier(ModelSerializer):
-    products = OrderProductSerializer(many=True, read_only=True)
+    products = OrderProductDetailSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order

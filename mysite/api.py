@@ -26,4 +26,6 @@ urlpatterns = [
     path('', include('center.urls')),
     path('', include('mobileauth.urls')),
     path('', include('order.urls')),
+    path('', include('user.urls')),
+
 ]
