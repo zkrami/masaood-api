@@ -14,11 +14,10 @@ class MobileAuthViewSet(viewsets.ViewSet):
 
         # todo validate mobile number
         mobile = request.data["mobile"]
-        print(mobile)
         code = get_random_string(length=6, allowed_chars='1234567890')
-        print(code)
+        code = '666666'
         # @todo send code to phone
-
+        
         VerificationToken.objects.create(key=mobile, code=code)
         User.objects.get_or_create(mobile=mobile)
 
