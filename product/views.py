@@ -9,13 +9,13 @@ import rest_framework_filters as filters
 class SizeViewSet(ModelViewSet):
     queryset = Size.objects.all()
     serializer_class = SizeSerializer
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAdminOrReadOnly, )
 
 
 class GradeViewSet(ModelViewSet):
     queryset = Grade.objects.all()
     serializer_class = GradeSerializer
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAdminOrReadOnly, )
 
 
 class AbstractProductViewSet(PerActionSerializerMixin, ModelViewSet):
@@ -34,7 +34,7 @@ class AbstractProductViewSet(PerActionSerializerMixin, ModelViewSet):
 class ProductViewSet(PerActionSerializerMixin, ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = (IsAdminUser, )
+    permission_classes = (IsAdminOrReadOnly, )
     serializer_action_classes = {
         'list': ProductDetailSerializer,
         'retrieve': ProductDetailSerializer
