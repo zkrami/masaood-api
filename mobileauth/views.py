@@ -18,22 +18,29 @@ class MobileAuthViewSet(viewsets.ViewSet):
         code = '666666'
         # @todo send code to phone
 
-        VerificationToken.objects.create(key=mobile, code=code)
+        token, tokenCreated = VerificationToken.objects.get_or_create(
+            key=mobile, code=code)
+        # update expiration
+
         user, created = User.objects.get_or_create(mobile=mobile)
 
-        return Response({"message": "Created successfully", "created": created})
+        return Response({"message": "Created successfully" , "verified" : user.verified})
 
     @action(detail=False, methods=['post'])
     def verify(self, request):
         mobile = request.data["mobile"]
         code = request.data["code"]
 
-        # @todo
+        # @todo code expiration
         try:
             VerificationToken.objects.get(key=mobile, code=code)
             user = User.objects.get(mobile=mobile)
         except (VerificationToken.DoesNotExist, User.DoesNotExist):
             return Response("verification error", status=status.HTTP_400_BAD_REQUEST)
+
+        user.verified = True
+        user.save()
+
         token, _ = Token.objects.get_or_create(user=user)
         # todo return user permissions
-        return Response({'token': token.key})
+        return Response({'token': token.key  })

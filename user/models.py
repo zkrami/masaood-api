@@ -11,6 +11,7 @@ class User(AbstractUser):
         max_length=150,
         unique=False,
     )
+    verified = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username
