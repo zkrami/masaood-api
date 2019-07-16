@@ -26,7 +26,7 @@ class AbstractProductViewSet(PerActionSerializerMixin, ModelViewSet):
         'list': AbstractProductDetailSerializer,
         'retrieve': AbstractProductDetailSerializer
     }
-    filter_class = filters.AllValuesFilter
+   # filter_class = filters.AllValuesFilter
     #["nameEn" , "nameAr" , "descriptionAr" , "descriptionEn" , "code" , "image" , "grade" , "price" , "gender" , "status" , "createdAt"]
 
 
