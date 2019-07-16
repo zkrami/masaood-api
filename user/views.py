@@ -16,7 +16,7 @@ class UserViewSet(RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsAuthenticated,)
-
+    filterset_fields = []
 
     def get_object(self):
         return self.request.user
@@ -26,3 +26,4 @@ class AdminUserViewSet(ModelViewSet):
     queryset = User.objects.all()
     permission_classes = (IsAuthenticated, IsAdminUser, )
     serializer_class = AdminUserSerializer
+    filterset_fields = []

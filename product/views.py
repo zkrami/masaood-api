@@ -3,8 +3,8 @@ from .models import AbstractProduct, Size, Grade, Product
 from .serializers import AbstractProductSerializer, SizeSerializer, GradeSerializer, AbstractProductDetailSerializer, ProductSerializer, ProductDetailSerializer
 from shared.mixins.per_action_serializer import PerActionSerializerMixin
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
-from shared.permissions import IsAdminOrReadOnly
-
+from shared.permissions  import IsAdminOrReadOnly 
+import rest_framework_filters as filters 
 
 class SizeViewSet(ModelViewSet):
     queryset = Size.objects.all()
@@ -21,11 +21,14 @@ class GradeViewSet(ModelViewSet):
 class AbstractProductViewSet(PerActionSerializerMixin, ModelViewSet):
     queryset = AbstractProduct.objects.all()
     serializer_class = AbstractProductSerializer
-    permission_classes = (IsAdminOrReadOnly,)
+    permission_classes = ()
     serializer_action_classes = {
         'list': AbstractProductDetailSerializer,
         'retrieve': AbstractProductDetailSerializer
     }
+    #filter_class = filters.AllLookupsFilter
+    #["nameEn" , "nameAr" , "descriptionAr" , "descriptionEn" , "code" , "image" , "grade" , "price" , "gender" , "status" , "createdAt"]
+
 
 
 class ProductViewSet(PerActionSerializerMixin, ModelViewSet):

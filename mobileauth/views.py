@@ -4,7 +4,7 @@ from rest_framework import status, viewsets
 from django.utils.crypto import get_random_string
 from .models import VerificationToken
 from user.models import User
-from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.models import Token 
 
 
 class MobileAuthViewSet(viewsets.ViewSet):
