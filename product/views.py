@@ -26,7 +26,7 @@ class AbstractProductViewSet(PerActionSerializerMixin, ModelViewSet):
         'list': AbstractProductDetailSerializer,
         'retrieve': AbstractProductDetailSerializer
     }
-    #filter_class = filters.AllLookupsFilter
+    filter_class = filters.AllValuesFilter
     #["nameEn" , "nameAr" , "descriptionAr" , "descriptionEn" , "code" , "image" , "grade" , "price" , "gender" , "status" , "createdAt"]
 
 
@@ -34,7 +34,7 @@ class AbstractProductViewSet(PerActionSerializerMixin, ModelViewSet):
 class ProductViewSet(PerActionSerializerMixin, ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = (IsAdminOrReadOnly, )
+    permission_classes = ( ) # @todo 
     serializer_action_classes = {
         'list': ProductDetailSerializer,
         'retrieve': ProductDetailSerializer
