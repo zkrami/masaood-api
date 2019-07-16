@@ -6,6 +6,7 @@ import rest_framework.status
 from rest_framework.exceptions import ParseError
 from .models import Media
 from .serializers import MediaSerializer
+from rest_framework.permissions import IsAdminUser
 # Create your views here.
 
 
@@ -13,7 +14,7 @@ from .serializers import MediaSerializer
 class MediaViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin ):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
-    permission_classes = ()
+    permission_classes = (IsAdminUser,)
 
     def create(self, request):
         try:

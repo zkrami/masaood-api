@@ -4,8 +4,10 @@ from rest_framework.viewsets import ModelViewSet
 from .serializers import CenterSerializer
 from .models import Center
 
+from shared.permissions import IsAdminOrReadOnly
+
 
 class CenterViewSet(ModelViewSet):
     serializer_class = CenterSerializer
-    permission_classes = ()
+    permission_classes = (IsAdminOrReadOnly, )
     queryset = Center.objects.all()
