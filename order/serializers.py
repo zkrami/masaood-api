@@ -20,9 +20,18 @@ class OrderSerialier(WritableNestedModelSerializer):
     products = OrderProductSerializer(many=True)
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
+    def validate(self, attrs):
+        total = 0
+        for orderProduct in attrs["products"]:
+            total += orderProduct["count"] * orderProduct["product"].abstractProduct.price
+
+        attrs["total"] = total
+        return super().validate(attrs)
+
+
     class Meta:
         model = Order
-        exclude = ('createdAt', 'status')
+        exclude = ('createdAt', 'status', 'total', )
 
 
 class OrderProductDetailSerializer(ModelSerializer):

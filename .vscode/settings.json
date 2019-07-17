@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/usr/bin/python3",
+    "python.pythonPath": "env/bin/python",
     "python.linter": "pylint_django",
     "python.linting.enabled": false,
     "python.linting.pylintEnabled": false,

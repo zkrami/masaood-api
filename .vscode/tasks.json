@@ -4,28 +4,35 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "activate env",
+            "type": "shell",
+            "command" : "source env/bin/activate",
+            
+        },
+        {
             "label": "run server",
             "type": "shell",
-            "command": "python3 manage.py runserver 0:8080",
-            "problemMatcher": []
+            "command": "python manage.py runserver 0:8080",
+            "problemMatcher": [] ,
+            "dependsOn" :"activate env"
         } ,
         
         {
             "label": "make and migrate ",
             "type": "shell",
-            "command": "python3 manage.py makemigrations ; python3 manage.py migrate ",
+            "command": "python manage.py makemigrations ; python manage.py migrate ",
             "problemMatcher": []
         } ,
         {
             "label": "make migrations",
             "type": "shell",
-            "command": "python3 manage.py makemigrations ",
+            "command": "python manage.py makemigrations ",
             "problemMatcher": []
         } ,
         {
             "label": "migrate",
             "type": "shell",
-            "command": "python3 manage.py migrate",
+            "command": "python manage.py migrate",
             "problemMatcher": []
         } 
         

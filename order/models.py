@@ -17,6 +17,7 @@ class Order(models.Model):
     deliveryAddress = models.TextField(default='')
     deliveryLat = models.FloatField(default=0)
     devliveryLng = models.FloatField(default=0)
+    total = models.DecimalField(decimal_places=4, max_digits=10)
 
     # enums
     status = models.CharField(max_length=20, choices=StatusChoices)
