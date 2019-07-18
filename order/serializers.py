@@ -1,10 +1,10 @@
 from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, RelatedField
 from rest_framework import serializers
-from .models import Order, OrderProduct
+from .models import Order, OrderProduct, StatusEnum
 # Create your models here.
 
 from drf_writable_nested import WritableNestedModelSerializer
-
+from datetime import datetime
 
 class OrderProductSerializer(ModelSerializer):
     class Meta:
@@ -19,6 +19,14 @@ class OrderSerialier(WritableNestedModelSerializer):
 
     products = OrderProductSerializer(many=True)
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    def create(self, validated_data):
+
+        if "center" in validated_data:
+            validated_data["status"] = StatusEnum.assigned.value
+            attrs["assignedAt"] = datetime.now()
+
+
+        return super().create(validated_data)
 
     def validate(self, attrs):
         total = 0
@@ -27,7 +35,6 @@ class OrderSerialier(WritableNestedModelSerializer):
 
         attrs["total"] = total
         return super().validate(attrs)
-
 
     class Meta:
         model = Order
@@ -41,10 +48,48 @@ class OrderProductDetailSerializer(ModelSerializer):
         depth = 2
 
 
-class OrderDetailSerialier(ModelSerializer):
+class OrderDetailSerializer(ModelSerializer):
     products = OrderProductDetailSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order
         fields = "__all__"
         depth = 1
+
+
+class OrderAssignSerializer(ModelSerializer):
+    
+    class Meta:
+        model = Order
+        fields = ("center",)
+
+    def validate(self, attrs):
+        attrs["status"] = StatusEnum.assigned.value
+        attrs["assignedAt"] = datetime.now()
+
+        return super().validate(attrs)
+
+
+class OrderCancelSerializer(ModelSerializer):
+
+    class Meta:
+        model = Order
+        fields = ()
+
+    def validate(self, attrs):
+        attrs["status"] = StatusEnum.canceled.value
+        attrs["canceledAt"] = datetime.now()
+
+        return super().validate(attrs)
+
+
+class OrderDeliverSerializer(ModelSerializer):
+
+    class Meta:
+        model = Order
+        fields = ()
+
+    def validate(self, attrs):
+        attrs["status"] = StatusEnum.delivered.value
+        attrs["deliveredAt"] = datetime.now() 
+        return super().validate(attrs)

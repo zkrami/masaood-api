@@ -3,14 +3,25 @@ from django.conf import settings
 from user.models import User
 from center.models import Center
 from product.models import Product
+import enum
+
+
+class StatusEnum(enum.Enum):
+    pending = "pending"
+    assigned = "assigned"
+    canceled = "canceled"
+    delivered = "delivered"
+
+    def toChoices():
+        return ((StatusEnum.pending.value, "pending"),
+                (StatusEnum.assigned.value, "assigned"),
+                (StatusEnum.canceled.value, "canceled"),
+                (StatusEnum.delivered.value, "delivered"))
 
 
 class Order(models.Model):
 
-    StatusChoices = (("pending", "pending"),
-                     ("assigned", "assigned"),
-                     ("canceled", "canceled"),
-                     ("delivered", "delivered"))
+    StatusChoices = StatusEnum.toChoices()
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     center = models.ForeignKey(Center, on_delete=models.SET_NULL, null=True)
@@ -20,10 +31,12 @@ class Order(models.Model):
     total = models.DecimalField(decimal_places=4, max_digits=10)
 
     # enums
-    status = models.CharField(max_length=20, choices=StatusChoices)
+    status = models.CharField(max_length=20, choices=StatusChoices , default = StatusEnum.pending.value)
 
     createdAt = models.DateTimeField(auto_now=True)
-
+    canceledAt = models.DateTimeField(null=True)
+    deliveredAt = models.DateTimeField(null=True)
+    assignedAt = models.DateTimeField(null=True) 
 
 class OrderProduct(models.Model):
     count = models.IntegerField()
