@@ -14,7 +14,7 @@ class User(AbstractUser):
         default=''
     )
     verified = models.BooleanField(default=False)
-    email = models.EmailField(blank=True, unique=True)
+    email = models.EmailField(null=True, unique=True , default=None)
 
     search_fields = ('id', )
     autocomplete_fields = ('id', )
