@@ -1,8 +1,12 @@
+autopep8==1.4.4
 Django==2.2.3
+django-cors-headers==3.0.2
 django-filter==2.2.0
 djangorestframework==3.10.0
 djangorestframework-filters==1.0.0.dev0
 drf-writable-nested==0.5.1
 mysqlclient==1.4.2.post1
+pycodestyle==2.5.0
 pytz==2019.1
+rope==0.14.0
 sqlparse==0.3.0
