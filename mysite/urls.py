@@ -19,10 +19,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from rest_framework.urls import url
- 
+
 urlpatterns = [
     path('api/v1/', include('mysite.api')),
     path('admin', admin.site.urls),
-] 
+]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

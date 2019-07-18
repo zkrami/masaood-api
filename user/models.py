@@ -1,13 +1,12 @@
 from django.db import models
 from django.contrib.admin import ModelAdmin
-
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractUser
 # Create your models here.
 import rest_framework
 
-
 class User(AbstractUser):
-    mobile = models.CharField(max_length=255, unique=True)
+    mobile = models.CharField(max_length=255, unique=True, blank=True)
     USERNAME_FIELD = 'mobile'
     username = models.CharField(
         max_length=150,
@@ -15,8 +14,15 @@ class User(AbstractUser):
         default=''
     )
     verified = models.BooleanField(default=False)
+    email = models.EmailField(blank=True, unique=True)
+
     search_fields = ('id', )
     autocomplete_fields = ('id', )
+
+    def clean(self):
+        super().clean()
+        if self.email is None and self.mobile is None:
+            raise ValidationError('email and mobile are both None')
 
     def __str__(self):
         return self.username
@@ -24,5 +30,5 @@ class User(AbstractUser):
 
 
 class UserAdmin(ModelAdmin):
-    search_fields = ("mobile" , ) 
-    pass 
+    search_fields = ("mobile", )
+    pass

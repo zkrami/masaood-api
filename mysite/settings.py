@@ -9,10 +9,10 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-from django.db.backends.mysql.base import DatabaseWrapper
-DatabaseWrapper.data_types['DateTimeField'] = 'datetime' # fix for MySQL 5.5
-
 import os
+from django.db.backends.mysql.base import DatabaseWrapper
+DatabaseWrapper.data_types['DateTimeField'] = 'datetime'  # fix for MySQL 5.5
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,7 +27,7 @@ SECRET_KEY = 'rf4@13_be6red4^+uw=k*yash4f^q9j4*@)8#10^h6pbj78r_8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['104.217.253.15' , 'localhost']
+ALLOWED_HOSTS = ['104.217.253.15', 'localhost']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'media',
     'mobileauth',
     'order',
+    'passwordauth',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_filters',
-    'rest_framework_filters' , 
+    'rest_framework_filters',
     'rest_framework.authtoken',
     'corsheaders'
 
@@ -86,7 +87,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
-CORS_ORIGIN_ALLOW_ALL = True 
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -113,8 +114,8 @@ STATICFILES_DIRS = [
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT=os.path.join(".." , "media")
-USERNAME_FIELD = '_username' 
+MEDIA_ROOT = os.path.join("..", "media")
+USERNAME_FIELD = '_username'
 
 
 # Password validation
@@ -164,3 +165,9 @@ REST_FRAMEWORK = {
         'mobileauth.authentication.BearerAuthentication',
     )
 }
+
+
+AUTHENTICATION_BACKENDS = (
+    'passwordauth.backend.EmailModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)

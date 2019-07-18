@@ -19,6 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from rest_framework.urls import url
+from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path('', include('product.urls')),
@@ -27,5 +28,6 @@ urlpatterns = [
     path('', include('mobileauth.urls')),
     path('', include('order.urls')),
     path('', include('user.urls')),
+    path('' , include('passwordauth.urls')),
 
 ]
