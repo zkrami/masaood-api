@@ -4,7 +4,7 @@ from rest_framework.decorators import action
 # Create your views here.
 from .serializers import PasswordTokenSerializer
 from rest_framework.authtoken.models import Token
-
+from rest_framework.response import Response 
 
 class PasswordAuthTokenView(ViewSet):
     throttle_classes = ()

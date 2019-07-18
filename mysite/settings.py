@@ -168,6 +168,6 @@ REST_FRAMEWORK = {
 
 
 AUTHENTICATION_BACKENDS = (
-    'passwordauth.backend.EmailModelBackend',
+    'passwordauth.backend.EmailModelBackendsd',
     'django.contrib.auth.backends.ModelBackend',
 )
