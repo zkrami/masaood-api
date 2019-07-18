@@ -1,9 +1,16 @@
 from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, RelatedField
 from .models import Center
-from drf_writable_nested import WritableNestedModelSerializer
 
-class CenterSerializer(WritableNestedModelSerializer):
-
+class CenterSerializer(ModelSerializer):
     class Meta:
         model = Center
         exclude = ('createdAt',)
+
+
+
+class CenterDetailSerializer(ModelSerializer):
+    class Meta:
+        model=Center
+        exclude = ('createdAt',)
+        depth = 1 
+

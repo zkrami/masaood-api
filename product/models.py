@@ -29,22 +29,18 @@ class AbstractProduct(models.Model):
         ("female", "Female"),
         ("male", "Male")
     )
-    StatusChoices = (("unavailable", "unavailable"),
-                     ("available", "available"))
 
     nameEn = models.CharField(max_length=255)
     nameAr = models.CharField(max_length=255)
     descriptionAr = models.TextField(default='')
     descriptionEn = models.TextField(default='')
-    code = models.CharField(max_length=255)
+
     image = models.ForeignKey(
         media.models.Media, on_delete=models.SET_NULL, null=True)
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE)
-    price = models.DecimalField(default=0,  decimal_places=4, max_digits=10)
 
     # enums
     gender = models.CharField(max_length=20, choices=GenderChoices)
-    status = models.CharField(max_length=20, choices=StatusChoices)
 
     createdAt = models.DateTimeField(auto_now=True)
 
@@ -54,9 +50,15 @@ class AbstractProduct(models.Model):
 
 class Product(models.Model):
 
+    StatusChoices = (("unavailable", "unavailable"),
+                     ("available", "available"))
     size = models.ForeignKey(Size, on_delete=models.CASCADE)
+    code = models.CharField(max_length=255)
+    status = models.CharField(max_length=20, choices=StatusChoices)
+    price = models.DecimalField(default=0,  decimal_places=4, max_digits=10)
+
     abstractProduct = models.ForeignKey(
-        AbstractProduct, on_delete=models.CASCADE , related_name="products")
+        AbstractProduct, on_delete=models.CASCADE, related_name="products")
 
     createdAt = models.DateTimeField(auto_now=True)
 

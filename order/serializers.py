@@ -23,7 +23,7 @@ class OrderSerialier(WritableNestedModelSerializer):
     def validate(self, attrs):
         total = 0
         for orderProduct in attrs["products"]:
-            total += orderProduct["count"] * orderProduct["product"].abstractProduct.price
+            total += orderProduct["count"] * orderProduct["product"].price
 
         attrs["total"] = total
         return super().validate(attrs)
