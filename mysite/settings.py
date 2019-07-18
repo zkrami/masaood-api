@@ -27,15 +27,15 @@ SECRET_KEY = 'rf4@13_be6red4^+uw=k*yash4f^q9j4*@)8#10^h6pbj78r_8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['104.217.253.15', 'localhost' , 'localhost:4200' ]
+ALLOWED_HOSTS = ['104.217.253.15', 'localhost', 'localhost:4200']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'user', 
+    'user',
     'product',
-    'state', 
+    'state',
     'center',
     'media',
     'mobileauth',
@@ -108,11 +108,11 @@ DATABASES = {
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "..",  "static"),
+    os.path.join(BASE_DIR,   "static"),
 
 
 ]
-STATIC_ROOT = '' 
+STATIC_ROOT = ''
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join("..", "media")
