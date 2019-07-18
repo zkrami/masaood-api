@@ -10,4 +10,5 @@ from shared.permissions import IsAdminOrReadOnly
 class CenterViewSet(ModelViewSet):
     serializer_class = CenterSerializer
     permission_classes = (IsAdminOrReadOnly, )
+    permission_classes = () 
     queryset = Center.objects.all()

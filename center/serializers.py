@@ -1,9 +1,8 @@
 from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, RelatedField
 from .models import Center
-# Create your models here.
+from drf_writable_nested import WritableNestedModelSerializer
 
-
-class CenterSerializer(ModelSerializer):
+class CenterSerializer(WritableNestedModelSerializer):
 
     class Meta:
         model = Center
