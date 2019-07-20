@@ -27,15 +27,15 @@ SECRET_KEY = 'rf4@13_be6red4^+uw=k*yash4f^q9j4*@)8#10^h6pbj78r_8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['104.217.253.15', 'localhost' , 'localhost:4200' ]
+ALLOWED_HOSTS = ['104.217.253.15', 'localhost', 'localhost:4200']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'user', 
+    'user',
     'product',
-    'state', 
+    'state',
     'center',
     'media',
     'mobileauth',
@@ -100,7 +100,10 @@ DATABASES = {
         'USER': 'rami',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
-        'PORT': '3306'
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': 'ALTER DATABASE <YOUR_DB_NAME> CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci',
+        },
     }
 }
 
