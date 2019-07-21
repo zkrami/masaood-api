@@ -19,6 +19,7 @@ DatabaseWrapper.data_types['DateTimeField'] = 'datetime'  # fix for MySQL 5.5
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -114,15 +115,24 @@ DATABASES = {
 }
 
 # from http://www.morethanseven.net/2009/02/11/django-settings-tip-setting-relative-paths/
-SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "..",  "static"),
 
 
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static2/")
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static/'),
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+)
+
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join("..", "media")
 USERNAME_FIELD = '_username'
