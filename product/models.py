@@ -35,8 +35,8 @@ class AbstractProduct(models.Model):
     descriptionAr = models.TextField(default='')
     descriptionEn = models.TextField(default='')
 
-    image = models.ForeignKey(
-        media.models.Media, on_delete=models.SET_NULL, null=True)
+    images = models.ManyToManyField(media.models.Media)
+
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE)
 
     # enums
