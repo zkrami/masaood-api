@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
+from corsheaders.defaults import default_headers   # Kept here for backwards compatibility
 import os
 from django.db.backends.mysql.base import DatabaseWrapper
+import corsheaders.conf
 DatabaseWrapper.data_types['DateTimeField'] = 'datetime'  # fix for MySQL 5.5
 
 
@@ -89,6 +91,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "*"
+]
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
