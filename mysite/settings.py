@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 from corsheaders.defaults import default_headers   # Kept here for backwards compatibility
 import os
 from django.db.backends.mysql.base import DatabaseWrapper
-import corsheaders.conf
 DatabaseWrapper.data_types['DateTimeField'] = 'datetime'  # fix for MySQL 5.5
 
 
@@ -30,6 +29,15 @@ SECRET_KEY = 'rf4@13_be6red4^+uw=k*yash4f^q9j4*@)8#10^h6pbj78r_8'
 DEBUG = True
 
 ALLOWED_HOSTS = ['104.217.253.15', 'localhost', 'localhost:4200']
+
+
+WSGI_APPLICATION = 'mysite.wsgi.application'
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "*"
+]
+
 
 
 # Application definition
@@ -87,13 +95,6 @@ TEMPLATES = [
             ],
         },
     },
-]
-
-WSGI_APPLICATION = 'mysite.wsgi.application'
-CORS_ORIGIN_ALLOW_ALL = True
-
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    "*"
 ]
 
 # Database
