@@ -4,7 +4,8 @@ from rest_framework import status, viewsets
 from django.utils.crypto import get_random_string
 from .models import VerificationToken
 from user.models import User
-from rest_framework.authtoken.models import Token 
+from rest_framework.authtoken.models import Token
+from user.serializers import UserSerializer
 
 
 class MobileAuthViewSet(viewsets.ViewSet):
@@ -24,7 +25,7 @@ class MobileAuthViewSet(viewsets.ViewSet):
 
         user, created = User.objects.get_or_create(mobile=mobile)
 
-        return Response({"message": "Created successfully" , "verified" : user.verified})
+        return Response({"message": "Created successfully", "verified": user.verified})
 
     @action(detail=False, methods=['post'])
     def verify(self, request):
@@ -41,6 +42,8 @@ class MobileAuthViewSet(viewsets.ViewSet):
         user.verified = True
         user.save()
 
+        userData = UserSerializer(user).data    
+
         token, _ = Token.objects.get_or_create(user=user)
         # todo return user permissions
-        return Response({'token': token.key  })
+        return Response({'token': token.key, 'user': userData})
