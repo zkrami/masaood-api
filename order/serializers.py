@@ -2,9 +2,10 @@ from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, 
 from rest_framework import serializers
 from .models import Order, OrderProduct, StatusEnum
 # Create your models here.
-
+from center.models import Center
 from drf_writable_nested import WritableNestedModelSerializer
 from datetime import datetime
+
 
 class OrderProductSerializer(ModelSerializer):
     class Meta:
@@ -19,12 +20,13 @@ class OrderSerialier(WritableNestedModelSerializer):
 
     products = OrderProductSerializer(many=True)
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    centerId = PrimaryKeyRelatedField(queryset=Center.objects.all(), source="center" , required=False)
+
     def create(self, validated_data):
 
         if "center" in validated_data:
             validated_data["status"] = StatusEnum.assigned.value
-            attrs["assignedAt"] = datetime.now()
-
+            validated_data["assignedAt"] = datetime.now()
 
         return super().create(validated_data)
 
@@ -38,7 +40,7 @@ class OrderSerialier(WritableNestedModelSerializer):
 
     class Meta:
         model = Order
-        exclude = ('createdAt', 'status', 'total', )
+        exclude = ('createdAt', 'status', 'total' )
 
 
 class OrderProductDetailSerializer(ModelSerializer):
@@ -58,7 +60,7 @@ class OrderDetailSerializer(ModelSerializer):
 
 
 class OrderAssignSerializer(ModelSerializer):
-    
+
     class Meta:
         model = Order
         fields = ("center",)
@@ -91,5 +93,5 @@ class OrderDeliverSerializer(ModelSerializer):
 
     def validate(self, attrs):
         attrs["status"] = StatusEnum.delivered.value
-        attrs["deliveredAt"] = datetime.now() 
+        attrs["deliveredAt"] = datetime.now()
         return super().validate(attrs)

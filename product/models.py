@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
-
 import media.models
+from rest_framework.serializers import ModelSerializer
 
 
 class Grade(models.Model):
