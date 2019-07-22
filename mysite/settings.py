@@ -169,7 +169,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
-    'DEFAULT_FILTER_BACKENDS': ('rest_framework_filters.backends.RestFrameworkFilterBackend',),
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework_filters.backends.RestFrameworkFilterBackend', 'rest_framework.filters.OrderingFilter'),
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'mobileauth.authentication.BearerAuthentication',

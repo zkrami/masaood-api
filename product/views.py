@@ -12,6 +12,7 @@ class SizeViewSet(ModelViewSet):
     serializer_class = SizeSerializer
     permission_classes = (IsAdminOrReadOnly, )
 
+from rest_framework.filters import OrderingFilter
 
 class GradeViewSet(ModelViewSet):
     queryset = Grade.objects.all()
@@ -28,14 +29,14 @@ class AbstractProductViewSet(PerActionSerializerMixin, ModelViewSet):
         'retrieve': AbstractProductDetailSerializer
     }
     filter_class = filters.AbstractProductFilter
+   
     # ["nameEn" , "nameAr" , "descriptionAr" , "descriptionEn" , "code" , "image" , "grade" , "price" , "gender" , "status" , "createdAt"]
-
 
 
 class ProductViewSet(PerActionSerializerMixin, ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = ( ) # @todo permissoins
+    permission_classes = ()  # @todo permissoins
 
     serializer_action_classes = {
         'list': ProductDetailSerializer,
