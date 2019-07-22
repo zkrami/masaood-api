@@ -46,7 +46,7 @@ class OrderSerialier(WritableNestedModelSerializer):
 class OrderProductDetailSerializer(ModelSerializer):
     class Meta:
         model = OrderProduct
-        exclude = ("createdAt", "order", )
+        exclude = ("order", )
         depth = 2
 
 

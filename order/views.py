@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from shared.permissions import IsOwner
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
+from order import filters 
 
 # todo prevent edit
 class OrderViewSet(PerActionSerializerMixin, ModelViewSet):
@@ -28,6 +28,8 @@ class OrderAdminViewSet(PerActionSerializerMixin, ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerialier
     permission_classes = (IsAuthenticated, IsAdminUser)
+    permission_classes = () 
+    filter_class = filters.OrderFilter
 
     serializer_action_classes = {
         'list': OrderDetailSerializer,
