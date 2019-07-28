@@ -33,7 +33,7 @@ class Order(models.Model):
     # enums
     status = models.CharField(max_length=20, choices=StatusChoices , default = StatusEnum.pending.value)
 
-    createdAt = models.DateTimeField(auto_now=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
     canceledAt = models.DateTimeField(null=True)
     deliveredAt = models.DateTimeField(null=True)
     assignedAt = models.DateTimeField(null=True) 
@@ -43,7 +43,7 @@ class OrderProduct(models.Model):
     order = models.ForeignKey(
         Order, on_delete=models.CASCADE, related_name='products')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    createdAt = models.DateTimeField(auto_now=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ('order', 'product',)

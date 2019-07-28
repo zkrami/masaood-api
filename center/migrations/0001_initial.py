@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('nameAr', models.CharField(max_length=255)),
                 ('lat', models.FloatField()),
                 ('lng', models.FloatField()),
-                ('createdAt', models.DateTimeField(auto_now=True)),
+                ('createdAt', models.DateTimeField(auto_now_add=True)),
             ],
         ),
     ]

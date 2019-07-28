@@ -40,7 +40,7 @@ class OrderSerialier(WritableNestedModelSerializer):
 
     class Meta:
         model = Order
-        exclude = ('createdAt', 'status', 'total' )
+        exclude = ('createdAt', 'assignedAt' , 'deliveredAt' , 'canceledAt' ,  'status', 'total' )
 
 
 class OrderProductDetailSerializer(ModelSerializer):

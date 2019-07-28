@@ -21,7 +21,7 @@ class Center(models.Model):
     lat = models.FloatField()
     lng = models.FloatField()
     status = models.CharField(max_length=100 , default=StatusEnum.activated.value , choices = StatusEnum.toChoices())
-    createdAt = models.DateTimeField(auto_now=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
     states = models.ManyToManyField(State, related_name="centers")
 
     def __str__(self):

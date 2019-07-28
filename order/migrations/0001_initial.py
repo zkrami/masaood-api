@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('deliveryLat', models.FloatField(default=0)),
                 ('devliveryLng', models.FloatField(default=0)),
                 ('status', models.CharField(choices=[('pending', 'pending'), ('assigned', 'assigned'), ('canceled', 'canceled'), ('delivered', 'delivered')], max_length=20)),
-                ('createdAt', models.DateTimeField(auto_now=True)),
+                ('createdAt', models.DateTimeField(auto_now_add=True)),
                 ('center', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='center.Center')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],

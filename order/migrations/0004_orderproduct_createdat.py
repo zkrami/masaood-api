@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='orderproduct',
             name='createdAt',
-            field=models.DateTimeField(auto_now=True),
+            field=models.DateTimeField(auto_now_add=True),
         ),
     ]

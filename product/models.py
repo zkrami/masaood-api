@@ -7,7 +7,7 @@ from rest_framework.serializers import ModelSerializer
 class Grade(models.Model):
     nameEn = models.CharField(max_length=255)
     nameAr = models.CharField(max_length=255)
-    createdAt = models.DateTimeField(auto_now=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.nameEn
@@ -17,7 +17,7 @@ class Size(models.Model):
     nameAr = models.CharField(max_length=255)
     nameEn = models.CharField(max_length=255)
     code = models.CharField(max_length=255, default='')
-    createdAt = models.DateTimeField(auto_now=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.nameAr
@@ -42,7 +42,7 @@ class AbstractProduct(models.Model):
     # enums
     gender = models.CharField(max_length=20, choices=GenderChoices)
 
-    createdAt = models.DateTimeField(auto_now=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.nameEn
@@ -60,7 +60,7 @@ class Product(models.Model):
     abstractProduct = models.ForeignKey(
         AbstractProduct, on_delete=models.CASCADE, related_name="products")
 
-    createdAt = models.DateTimeField(auto_now=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.abstractProduct.nameAr + self.size.nameAr
