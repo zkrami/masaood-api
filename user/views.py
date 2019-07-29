@@ -6,7 +6,7 @@ import rest_framework.status
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.exceptions import ParseError
 from .models import User
-from .serializers import UserSerializer, AdminUserSerializer, GroupSerializer, AdminDetailUserSerializer
+from .serializers import UserSerializer, AdminUserSerializer, GroupSerializer, AdminDetailUserSerializer , UserDetailsSerializer
 from rest_framework.decorators import action
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
@@ -16,9 +16,12 @@ from rest_framework.generics import RetrieveUpdateAPIView
 from django.contrib.auth.models import Group
 
 
-class UserViewSet(RetrieveUpdateAPIView):
+class UserViewSet(PerActionSerializerMixin,  RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    serializer_action_classes = {
+        'GET': UserDetailsSerializer , 
+    }
     permission_classes = (IsAuthenticated,)
     filterset_fields = []
 

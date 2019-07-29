@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'media',
     'mobileauth',
     'order',
+    'mysite',
     'passwordauth',
     'django.contrib.admin',
     'django.contrib.auth',

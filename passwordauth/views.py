@@ -21,7 +21,7 @@ class PasswordAuthTokenView(ViewSet):
         token, created = Token.objects.get_or_create(user=user)
 
         
-        userData = UserSerializer(user).data    
+        userData = UserDetailsSerializer(user).data    
 
         return Response({'token': token.key, 'user': userData})
 

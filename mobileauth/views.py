@@ -5,8 +5,8 @@ from django.utils.crypto import get_random_string
 from .models import VerificationToken
 from user.models import User
 from rest_framework.authtoken.models import Token
-from user.serializers import UserSerializer
-
+from user.serializers import UserDetailsSerializer
+from django.contrib.auth.models import Group
 
 class MobileAuthViewSet(viewsets.ViewSet):
     permission_classes = ()
@@ -24,6 +24,9 @@ class MobileAuthViewSet(viewsets.ViewSet):
         # update expiration
 
         user, created = User.objects.get_or_create(mobile=mobile)
+        # add user role 
+        group = Group.objects.get(name='user')
+        user.groups.add(group)
 
         return Response({"message": "Created successfully", "verified": user.verified})
 
@@ -42,7 +45,7 @@ class MobileAuthViewSet(viewsets.ViewSet):
         user.verified = True
         user.save()
 
-        userData = UserSerializer(user).data    
+        userData = UserDetailsSerializer(user).data    
 
         token, _ = Token.objects.get_or_create(user=user)
         # todo return user permissions

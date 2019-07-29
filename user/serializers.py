@@ -8,21 +8,24 @@ from django.contrib.auth.hashers import make_password
 class UserDetailsSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = "__all__"
+        depth = 1
+        fields = ("first_name", "last_name", "email", "status", "groups")
 
 
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "email", "status")
+        # editable fields by user 
+        fields = ("first_name", "last_name", "email")
 
 
 class AdminUserSerializer(ModelSerializer):
 
-    groupsId = PrimaryKeyRelatedField(allow_empty=False, many=True, queryset=Group.objects.all(), source="groups")
-    
+    groupsId = PrimaryKeyRelatedField(
+        allow_empty=False, many=True, queryset=Group.objects.all(), source="groups")
+
     def validate_password(self, value):
-            return make_password(value)
+        return make_password(value)
 
     class Meta:
         model = User

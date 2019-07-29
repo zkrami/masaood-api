@@ -19,7 +19,11 @@ class PerActionSerializerMixin(object):
         If there's no entry for that action then just fallback to the regular
         get_serializer_class lookup: self.serializer_class, DefaultSerializer.
         """
+
         try:
             return self.serializer_action_classes[self.action]
         except (KeyError, AttributeError):
-            return super().get_serializer_class()
+            try:
+                return self.serializer_action_classes[self.request.method]
+            except (KeyError, AttributeError):
+                return super().get_serializer_class()
