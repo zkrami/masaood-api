@@ -11,14 +11,14 @@ class StatusEnum(enum.Enum):
     assigned = "assigned"
     canceled = "canceled"
     packed = "packed"
-    inDelivery = "inDelivery"
+    delivering = "delivering"
     delivered = "delivered"
 
     def toChoices():
         return ((StatusEnum.pending.value, "pending"),
                 (StatusEnum.assigned.value, "assigned"),
                 (StatusEnum.canceled.value, "canceled"),
-                (StatusEnum.inDelivery.value, "inDelivery"),
+                (StatusEnum.delivering.value, "delivering"),
                 (StatusEnum.packed.value, "packed"),
                 (StatusEnum.delivered.value, "delivered"))
 
@@ -42,6 +42,9 @@ class Order(models.Model):
     canceledAt = models.DateTimeField(null=True)
     deliveredAt = models.DateTimeField(null=True)
     assignedAt = models.DateTimeField(null=True)
+    deliveringAt = models.DateTimeField(null=True)
+    packedAt = models.DateField(null=True) 
+
 
 
 class OrderProduct(models.Model):

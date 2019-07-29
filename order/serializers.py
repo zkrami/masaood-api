@@ -20,7 +20,8 @@ class OrderSerialier(WritableNestedModelSerializer):
 
     products = OrderProductSerializer(many=True)
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    centerId = PrimaryKeyRelatedField(queryset=Center.objects.all(), source="center" , required=False)
+    centerId = PrimaryKeyRelatedField(
+        queryset=Center.objects.all(), source="center", required=False)
 
     def create(self, validated_data):
 
@@ -40,7 +41,8 @@ class OrderSerialier(WritableNestedModelSerializer):
 
     class Meta:
         model = Order
-        exclude = ('createdAt', 'assignedAt' , 'deliveredAt' , 'canceledAt' ,  'status', 'total' )
+        exclude = ('createdAt', 'assignedAt', 'deliveredAt',
+                   'canceledAt',  'status', 'total')
 
 
 class OrderProductDetailSerializer(ModelSerializer):
@@ -81,8 +83,30 @@ class OrderCancelSerializer(ModelSerializer):
     def validate(self, attrs):
         attrs["status"] = StatusEnum.canceled.value
         attrs["canceledAt"] = datetime.now()
-
         return super().validate(attrs)
+
+
+class OrderDeliveringSerializer(ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ()
+
+    def validate(self, attrs):
+        attrs["status"] = StatusEnum.delivering.value 
+        attrs["deliveringAt"] = datetime.now()
+        return super().validate(attrs)
+
+
+class OrderPackSerializer(ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ()
+
+    def validate(self, attrs):
+        attrs["status"] = StatusEnum.packed.value 
+        attrs["packedAt"] = datetime.now()
+        return super().validate(attrs)
+
 
 
 class OrderDeliverSerializer(ModelSerializer):
