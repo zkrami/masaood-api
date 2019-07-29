@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from rest_framework.viewsets import ViewSet
-from rest_framework.decorators import action 
+from rest_framework.decorators import action
 # Create your views here.
 from .serializers import PasswordTokenSerializer
 from rest_framework.authtoken.models import Token
-from rest_framework.response import Response 
-from user.serializers import UserSerializer
+from rest_framework.response import Response
+from user.serializers import UserSerializer, UserDetailsSerializer
 
 class PasswordAuthTokenView(ViewSet):
     throttle_classes = ()
@@ -20,8 +20,6 @@ class PasswordAuthTokenView(ViewSet):
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
 
-        
-        userData = UserDetailsSerializer(user).data    
+        userData = UserDetailsSerializer(user).data
 
         return Response({'token': token.key, 'user': userData})
-
