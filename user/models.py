@@ -27,6 +27,8 @@ class User(AbstractUser):
     )
     verified = models.BooleanField(default=False)
     email = models.EmailField(null=True, unique=True, default=None)
+    password = models.CharField('password', max_length=128, null=True, default=None)
+
     status = models.CharField(
         max_length=100, default=StatusEnum.activated.value, choices=StatusEnum.toChoices())
     search_fields = ('id', )

@@ -7,9 +7,35 @@ from user.models import User
 from rest_framework.authtoken.models import Token
 from user.serializers import UserDetailsSerializer
 from django.contrib.auth.models import Group
+import requests
+from datetime import datetime
 
 class MobileAuthViewSet(viewsets.ViewSet):
     permission_classes = ()
+
+    def send_verification():
+
+        payload = {
+            'method': 'sms',
+            'identity': {
+                'type': 'number',
+                'endpoint': 'mobile'    
+            }
+        }
+        auth = "" 
+        headers = {
+            'cache-control': 'no-cache',
+            'Content-Type': 'application/json',
+            'x-timestamp': datetime.now() , 
+            'Authorization' : auth 
+        }
+
+        result = requests.post("https://verificationapi-v1.sinch.com/verification/v1/verifications",
+        data=payload, headers=headers)
+        print(result)
+        print(vars(result))
+        return 0
+   
     @action(detail=False, methods=['post'])
     def login(self, request):
 
@@ -24,7 +50,7 @@ class MobileAuthViewSet(viewsets.ViewSet):
         # update expiration
 
         user, created = User.objects.get_or_create(mobile=mobile)
-        # add user role 
+        # add user role
         group = Group.objects.get(name='user')
         user.groups.add(group)
 
@@ -45,7 +71,7 @@ class MobileAuthViewSet(viewsets.ViewSet):
         user.verified = True
         user.save()
 
-        userData = UserDetailsSerializer(user).data    
+        userData = UserDetailsSerializer(user).data
 
         token, _ = Token.objects.get_or_create(user=user)
         # todo return user permissions
