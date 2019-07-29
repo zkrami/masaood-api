@@ -25,6 +25,5 @@ class MediaViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin ):
         # name
         media = Media.objects.create(file=file)
         serializer = self.get_serializer(media)
-        print(vars(media))
-        print(vars(serializer))
+       
         return Response(serializer.data,  status=rest_framework.status.HTTP_201_CREATED)

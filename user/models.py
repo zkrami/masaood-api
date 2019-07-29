@@ -15,8 +15,10 @@ class StatusEnum(enum.Enum):
         return ((StatusEnum.activated.value, "activated"),
                 (StatusEnum.deactivated.value, "deactivated"))
 
+
 class User(AbstractUser):
-    mobile = models.CharField(max_length=255, unique=True, blank=True)
+    mobile = models.CharField(
+        max_length=255, null=True, unique=True, default=None)
     USERNAME_FIELD = 'mobile'
     username = models.CharField(
         max_length=150,
@@ -24,8 +26,9 @@ class User(AbstractUser):
         default=''
     )
     verified = models.BooleanField(default=False)
-    email = models.EmailField(null=True, unique=True , default=None)
-    status = models.CharField(max_length=100 , default=StatusEnum.activated.value , choices = StatusEnum.toChoices())
+    email = models.EmailField(null=True, unique=True, default=None)
+    status = models.CharField(
+        max_length=100, default=StatusEnum.activated.value, choices=StatusEnum.toChoices())
     search_fields = ('id', )
     autocomplete_fields = ('id', )
 
