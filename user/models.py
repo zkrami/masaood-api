@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 import enum
 # Create your models here.
 import rest_framework
+from center.models import Center
 
 
 class StatusEnum(enum.Enum):
@@ -27,21 +28,25 @@ class User(AbstractUser):
     )
     verified = models.BooleanField(default=False)
     email = models.EmailField(null=True, unique=True, default=None)
-    password = models.CharField('password', max_length=128, null=True, default=None)
+    password = models.CharField(
+        'password', max_length=128, null=True, default=None)
 
     status = models.CharField(
         max_length=100, default=StatusEnum.activated.value, choices=StatusEnum.toChoices())
     search_fields = ('id', )
     autocomplete_fields = ('id', )
+    center = models.ForeignKey(Center, on_delete=models.SET_NULL, null=True)
 
     def clean(self):
-        super().clean()
         if self.email is None and self.mobile is None:
             raise ValidationError('email and mobile are both None')
 
     def __str__(self):
         return self.username
-    pass
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        return super().save(*args, **kwargs)
 
 
 class UserAdmin(ModelAdmin):

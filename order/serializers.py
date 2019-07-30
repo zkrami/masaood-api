@@ -24,7 +24,7 @@ class OrderSerialier(WritableNestedModelSerializer):
         queryset=Center.objects.all(), source="center", required=False)
 
     def create(self, validated_data):
-
+    
         if "center" in validated_data:
             validated_data["status"] = StatusEnum.assigned.value
             validated_data["assignedAt"] = datetime.now()
