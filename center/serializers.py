@@ -40,7 +40,7 @@ class CenterProductDetailSerializer(ModelSerializer):
     class Meta:
         model = CenterProduct
         exclude = ("center", )
-        depth = 2
+        depth = 3
 
 
 class CenterDetailSerializer(ModelSerializer):
