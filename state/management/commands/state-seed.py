@@ -4,22 +4,47 @@ from django.utils import log
 
 from state.models import State
 
+
 def state_seed():
 
     states = [
-      {
-          "nameEn" : "" , 
-          "nameAr" : "" 
-      }
+        {
+            "nameEn": "Abu Dhabi",
+            "nameAr": "ابو ظبي"
+        },
+        {
+            "nameEn": "Dubai",
+            "nameAr": "دبي"
+        },
+        {
+            "nameEn": "Ras Al Khaimah",
+            "nameAr": "راس الخيمة"
+        },
+        {
+            "nameEn": "Fujairah",
+            "nameAr": "الفجيرة"
+        }, {
+            "nameEn": "Sharjah",
+            "nameAr": "الشارقة"
+        }, {
+            "nameEn": "Ajman",
+            "nameAr": "عجمان"
+        }, {
+            "nameEn": "Umm Al Quwain",
+            "nameAr": "ام القويين"
+        }, {
+            "nameEn": "Al Ain",
+            "nameAr": "العين"
+        }
     ]
-    for state in sizes:
-        State.objects.update_or_create(**state)
+    for state in states:
+        State.objects.update_or_create(nameEn=state["nameEn"] , defaults=state)
 
 
 class Command(BaseCommand):
-    help = "seed sizes tables"
+    help = "seed states tables"
 
     def handle(self, *args, **options):
-        self.stdout.write('seeding sizes...')
-        size_seed()
+        self.stdout.write('seeding states...')
+        state_seed()
         self.stdout.write('done.')

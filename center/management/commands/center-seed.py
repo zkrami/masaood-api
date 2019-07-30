@@ -1,90 +1,154 @@
 from django.core.management.base import BaseCommand
 from django.utils import log
 # python manage.py seed --mode=refresh
-from product.models import Size
+
+from state.models import State
 
 
-def size_seed():
+def state_seed():
 
-    sizes = [
+    states = [
         {
-            "nameAr": "4-5",
-            "nameEn": "4-5",
-            "code": "4-5"
+            "state": "Abu Dhabi",        
+            "nameAr" : "لولو هايبر ماركت -الخالدية مول" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
         },
         {
-            "nameAr": "5-6",
-            "nameEn": "5-6",
-            "code": "5-6"
+            "state": "Abu Dhabi",        
+            "nameAr" : "لولو هايبر ماركت -الكابيتل مول" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
         },
         {
-            "nameAr": "6-7",
-            "nameEn": "6-7",
-            "code": "6-7"
+            "state": "Abu Dhabi",        
+            "nameAr" : "لولو هايبر ماركت - بانياس" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
         },
         {
-            "nameAr": "7-8",
-            "nameEn": "7-8",
-            "code": "7-8"
+            "state": "Abu Dhabi",        
+            "nameAr" : "لولو هايبر ماركت - المشرف مول" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
         },
         {
-            "nameAr": "8-9",
-            "nameEn": "8-9",
-            "code": "8-9"
+            "state": "Abu Dhabi",        
+            "nameAr" : "لولو هايبر ماركت - الرويس مول" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
         },
         {
-            "nameAr": "9-10",
-            "nameEn": "9-10",
-            "code": "9-10"
+            "state": "Abu Dhabi",        
+            "nameAr" : "لولو هايبر ماركت -  مركز التجارة العالمي" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
         },
         {
-            "nameAr": "10-11",
-            "nameEn": "10-11",
-            "code": "10-11"
+            "state": "Dubai",        
+            "nameAr" : "لولو هايبر ماركت -  الورقاء" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
+        },
+         {
+            "state": "Dubai",        
+            "nameAr" : "لولو هايبر ماركت -  القصيص" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
+        },
+         {
+            "state": "Dubai",        
+            "nameAr" : "لولو هايبر ماركت -  البرشا" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
+        },
+         {
+            "state": "Dubai",        
+            "nameAr" : "لولو هايبر ماركت -  الراشدية" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
+        },
+         {
+            "state": "Dubai",        
+            "nameAr" : "لولو هايبر ماركت -  المركز العربي" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
+        },
+         {
+            "state": "Ras Al Khaimah",        
+            "nameAr" : "لولو هايبر ماركت -  راس الخيمة مول" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
+        },
+          {
+            "state": "Fujairah",        
+            "nameAr" : "لولو هايبر ماركت -  الفجيرة" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
+        },
+           {
+            "state": "Fujairah",        
+            "nameAr" : "لولو هايبر ماركت -  دبا" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
+        },
+           {
+            "state": "Sharjah",        
+            "nameAr" : "لولو هايبر ماركت -  الشارقة" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
         },
         {
-            "nameAr": "11-12",
-            "nameEn": "11-12",
-            "code": "11-12"
+            "state": "Sharjah",        
+            "nameAr" : "لولو هايبر ماركت -  الحزانة الشارقة" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
         },
         {
-            "nameAr": "12-13",
-            "nameEn": "12-13",
-            "code": "12-13"
+            "state": "Ajman",        
+            "nameAr" : "لولو هايبر ماركت -  عجمان" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
         },
         {
-            "nameAr": "13-14",
-            "nameEn": "13-14",
-            "code": "13-14"
+            "state": "Umm Al Quwain",        
+            "nameAr" : "لولو هايبر ماركت -  ام القويين" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
         },
         {
-            "nameAr": "14-15",
-            "nameEn": "14-15",
-            "code": "14-15"
+            "state": "Al Ain",        
+            "nameAr" : "لولو هايبر ماركت -الفلاح بلازا-شارع خليفة" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
         },
-        {
-            "nameAr": "صغير",
-            "nameEn": "Small",
-            "code": "S"
+         {
+            "state": "Al Ain",        
+            "nameAr" : "لولو هايبر ماركت -  القويتات" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
         },
-        {
-            "nameAr": "متوسط",
-            "nameEn": "Medium",
-            "code": "M"
-        }, {
-            "nameAr": "كبير",
-            "nameEn": "Large",
-            "code": "L"
-        }
+         {
+            "state": "Al Ain",        
+            "nameAr" : "لولو هايبر ماركت - البراري مول" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
+        },
+         {
+            "state": "Al Ain",        
+            "nameAr" : "لولو هايبر ماركت - الفواه مول" , 
+            "lat" : 0 , 
+            "lng" : 0 , 
+        },
     ]
-    for size in sizes:
-        Size.objects.update_or_create(code=size["code"], defaults=size)
+    for state in states:
+        State.objects.update_or_create(nameEn=state["nameEn"] , defaults=state)
 
 
 class Command(BaseCommand):
-    help = "seed sizes tables"
+    help = "seed states tables"
 
     def handle(self, *args, **options):
-        self.stdout.write('seeding sizes...')
-        size_seed()
+        self.stdout.write('seeding states...')
+        state_seed()
         self.stdout.write('done.')

@@ -11,6 +11,8 @@ class Command(BaseCommand):
         call_command("user-seed")
         call_command("grade-seed")
         call_command("size-seed")
+        call_command("state-seed")
+
         self.stdout.write('done.')
 
 

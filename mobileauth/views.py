@@ -95,8 +95,7 @@ class MobileAuthViewSet(viewsets.ViewSet):
     def verify(self, request):
         mobile = request.data["mobile"]
         code = request.data["code"]
-
-        if code is not 666666:
+        if code != "666666":
             verification_result = verifiy(mobile, code)
             verification_json = verification_result.json()
 
