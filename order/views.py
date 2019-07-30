@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from shared.permissions import IsOwner
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from order import filters
+from order import filters , errors
 
 # todo prevent edit
 
@@ -62,10 +62,23 @@ class OrderAdminViewSet(PerActionSerializerMixin, ModelViewSet):
 
     @action(detail=True, methods=['put'])
     def deliver(self, request, pk=None):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
+        order = self.get_object()
+        if order.center is None:
+            raise errors.OrderIsNotAssigned()
+
+        if order.status is StatusEnum.delivered.value: 
+            raise errors.OrderIsDelivered() 
+        for product in order.products:
+            print(product)
+            print(vars(product))
+            
+                        
+        print(order.center)
+        print(vars(order)) 
+        serializer = self.get_serializer(order, data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
+
 
         return Response({'message' : 'delivered'})
 

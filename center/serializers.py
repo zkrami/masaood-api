@@ -8,7 +8,6 @@ class CenterProductSerializer(ModelSerializer):
 
     productId = PrimaryKeyRelatedField(
         queryset=Product.objects.all(), source="product")
-
     class Meta:
         model = CenterProduct
         exclude = ("createdAt", "center", "product")
@@ -16,7 +15,7 @@ class CenterProductSerializer(ModelSerializer):
 
 class CenterSerializer(WritableNestedModelSerializer):
 
-    products = CenterProductSerializer(many=True)
+   # products = CenterProductSerializer(many=True)
     statesId = PrimaryKeyRelatedField(
         allow_empty=False, many=True, queryset=State.objects.all(), source="states")
 
@@ -25,8 +24,19 @@ class CenterSerializer(WritableNestedModelSerializer):
         exclude = ('createdAt', 'states')
 
 
-class CenterProductDetailSerializer(ModelSerializer):
+class CenterProductAdminSerializer(ModelSerializer):
 
+    productId = PrimaryKeyRelatedField(
+        queryset=Product.objects.all(), source="product")
+    centerId = PrimaryKeyRelatedField(
+        queryset=Center.objects.all(), source="center")
+
+    class Meta:
+        model = CenterProduct
+        exclude = ("createdAt", "center", "product")
+
+
+class CenterProductDetailSerializer(ModelSerializer):
     class Meta:
         model = CenterProduct
         exclude = ("center", )
@@ -34,7 +44,8 @@ class CenterProductDetailSerializer(ModelSerializer):
 
 
 class CenterDetailSerializer(ModelSerializer):
-    products = CenterProductDetailSerializer(many=True , read_only=True) 
+    products = CenterProductDetailSerializer(many=True, read_only=True)
+
     class Meta:
         model = Center
         exclude = ()
