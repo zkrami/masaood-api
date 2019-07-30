@@ -8,7 +8,9 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from shared.permissions import IsOwner
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from order import filters , errors
+from order import filters, errors
+from django.core.exceptions import ObjectDoesNotExist
+
 
 # todo prevent edit
 
@@ -49,7 +51,7 @@ class OrderAdminViewSet(PerActionSerializerMixin, ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        return Response({'message' : 'assigned'})
+        return Response({'message': 'assigned'})
 
     @action(detail=True, methods=['put'])
     def cancel(self, request, pk=None):
@@ -57,8 +59,7 @@ class OrderAdminViewSet(PerActionSerializerMixin, ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        return Response({'message' : 'canceled'})
-
+        return Response({'message': 'canceled'})
 
     @action(detail=True, methods=['put'])
     def deliver(self, request, pk=None):
@@ -66,22 +67,27 @@ class OrderAdminViewSet(PerActionSerializerMixin, ModelViewSet):
         if order.center is None:
             raise errors.OrderIsNotAssigned()
 
-        if order.status is StatusEnum.delivered.value: 
-            raise errors.OrderIsDelivered() 
-        for product in order.products:
-            print(product)
-            print(vars(product))
-            
-                        
-        print(order.center)
-        print(vars(order)) 
+        if order.status is StatusEnum.delivered.value:
+            raise errors.OrderIsDelivered()
+
+        centerProducts = list()
+        for orderProduct in order.products.all():
+            try:
+                centerProduct = order.center.products.get(
+                    product_id=orderProduct.product_id)
+                centerProduct.count -= orderProduct.count
+                centerProducts.append(centerProduct)
+            except ObjectDoesNotExist:
+                raise errors.CenterHasNoProduct
+
+        for centerProduct in centerProducts:
+            centerProduct.save()
+
         serializer = self.get_serializer(order, data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
-
-        return Response({'message' : 'delivered'})
-
+        return Response({'message': 'delivered'})
 
     @action(detail=True, methods=['put'])
     def pack(self, request, pk=None):
@@ -90,13 +96,13 @@ class OrderAdminViewSet(PerActionSerializerMixin, ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
-        return Response({'message' : 'packed'})
+        return Response({'message': 'packed'})
 
-    @action(detail=True, methods=['put'] )
+    @action(detail=True, methods=['put'])
     def delivering(self, request, pk=None):
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
-        return Response({'message' : 'delivering'})
+        return Response({'message': 'delivering'})

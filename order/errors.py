@@ -13,8 +13,6 @@ class OrderIsNotAssigned(APIException):
     }
 
 
-
-
 class OrderIsDelivered(APIException):
     status_code = 400
 
@@ -23,4 +21,14 @@ class OrderIsDelivered(APIException):
         "status": status_code,
         "code": default_code,
         "message": 'Order is in delivered state'
+    }
+
+
+class CenterHasNoProduct(APIException):
+    status_code = 400
+    default_code = 'CENTER_HAS_NO_PRODUCT'
+    default_detail = {
+        "status": status_code,
+        "code": default_code,
+        "message": 'Center does not have a product'
     }
