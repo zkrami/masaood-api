@@ -44,6 +44,8 @@ class Order(models.Model):
     assignedAt = models.DateTimeField(null=True)
     deliveringAt = models.DateTimeField(null=True)
     packedAt = models.DateField(null=True) 
+    isDelivery = models.BooleanField(default=True) 
+    
 
 
 

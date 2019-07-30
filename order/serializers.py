@@ -27,6 +27,7 @@ class OrderSerialier(WritableNestedModelSerializer):
     
         if "center" in validated_data:
             validated_data["status"] = StatusEnum.assigned.value
+            validated_data["isDelivery"] = False
             validated_data["assignedAt"] = datetime.now()
 
         return super().create(validated_data)
@@ -42,7 +43,7 @@ class OrderSerialier(WritableNestedModelSerializer):
     class Meta:
         model = Order
         exclude = ('createdAt', 'assignedAt', 'deliveredAt',
-                   'canceledAt',  'status', 'total')
+                   'canceledAt',  'status', 'total' , 'isDelivery')
 
 
 class OrderProductDetailSerializer(ModelSerializer):
