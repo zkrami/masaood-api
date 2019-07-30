@@ -29,6 +29,9 @@ class OrderSerialier(WritableNestedModelSerializer):
             validated_data["status"] = StatusEnum.assigned.value
             validated_data["isDelivery"] = False
             validated_data["assignedAt"] = datetime.now()
+        else:
+            validated_data["isDelivery"] = True
+
 
         return super().create(validated_data)
 
@@ -36,6 +39,9 @@ class OrderSerialier(WritableNestedModelSerializer):
         total = 0
         for orderProduct in attrs["products"]:
             total += orderProduct["count"] * orderProduct["product"].price
+
+        if "center" not in attrs:
+            total += 10 
 
         attrs["total"] = total
         return super().validate(attrs)

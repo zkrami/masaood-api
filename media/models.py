@@ -6,7 +6,9 @@ from django.conf import settings
 class Media(models.Model):
 
     file = models.FileField(upload_to=settings.MEDIA_ROOT)
+    name = models.CharField(default="", max_length=255 , null=True)
     createdAt = models.DateTimeField(auto_now_add=True)
-    type = models.CharField(default="image" , max_length=30) 
+    type = models.CharField(default="image", max_length=30)
+
     def __str__(self):
         return self.file.url
