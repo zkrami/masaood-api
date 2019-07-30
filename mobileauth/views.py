@@ -2,7 +2,6 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 from django.utils.crypto import get_random_string
-from .models import VerificationToken
 from user.models import User
 from rest_framework.authtoken.models import Token
 from user.serializers import UserDetailsSerializer
@@ -11,9 +10,11 @@ import requests
 from datetime import datetime
 import json
 import base64
-from .errors import ServiceUnavailable
+from .errors import ServiceUnavailable, MobileVerificationError
 
-# @todo refactor 
+# @todo refactor
+
+
 def verifiy(mobile, code):
 
     payload = {
@@ -23,6 +24,13 @@ def verifiy(mobile, code):
         }
     }
 
+    key = "dcf8de29-f0fb-4e2b-9b7c-fa2e1d8766bc"
+
+    secret = "l1tQtF/p90+O2xBZjhiB+Q=="
+    b64bytes = base64.b64encode(
+        ('application:%s:%s' % (key, secret)).encode())
+    auth = 'basic %s' % b64bytes.decode('ascii')
+
     headers = {
         'cache-control': 'no-cache',
         'Content-Type': 'application/json',
@@ -30,16 +38,10 @@ def verifiy(mobile, code):
         'Authorization': auth
     }
 
-    key = "dcf8de29-f0fb-4e2b-9b7c-fa2e1d8766bc"
-    secret = "l1tQtF/p90+O2xBZjhiB+Q=="
-    b64bytes = base64.b64encode(
-        ('application:%s:%s' % (key, secret)).encode())
-    auth = 'basic %s' % b64bytes.decode('ascii')
-
     result = requests.put("https://verificationapi-v1.sinch.com/verification/v1/verifications/number/" + mobile,
                           json=payload, headers=headers)
 
-    return result 
+    return result
 
 
 def send_verification(mobile):
@@ -75,18 +77,12 @@ class MobileAuthViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'])
     def login(self, request):
 
-        # todo validate mobile number
         mobile = request.data["mobile"]
-        code = get_random_string(length=6, allowed_chars='1234567890')
-        code = '666666'
-        # @todo send code to phone
-        verification_result = send_verification(mobile)
-        print(verification_result.status_code)
-        raise ServiceUnavailable()
 
-        token, tokenCreated = VerificationToken.objects.get_or_create(
-            key=mobile, code=code)
-        # update expiration
+        verification_result = send_verification(mobile)
+
+        if verification_result.status_code != 200:
+            raise ServiceUnavailable()
 
         user, created = User.objects.get_or_create(mobile=mobile)
         # add user role
@@ -100,12 +96,20 @@ class MobileAuthViewSet(viewsets.ViewSet):
         mobile = request.data["mobile"]
         code = request.data["code"]
 
-        # @todo code expiration
+        verification_result = verifiy(mobile, code)
+        verification_json = verification_result.json()
+        
+        
+        if verification_json.get('errorCode' , 0 ) == 40003:
+            raise MobileVerificationError()
+
+        if verification_result.status_code != 200:
+            raise ServiceUnavailable()
+
         try:
-            VerificationToken.objects.get(key=mobile, code=code)
             user = User.objects.get(mobile=mobile)
-        except (VerificationToken.DoesNotExist, User.DoesNotExist):
-            return Response("verification error", status=status.HTTP_400_BAD_REQUEST)
+        except User.DoesNotExist:
+            raise MobileVerificationError()
 
         user.verified = True
         user.save()
