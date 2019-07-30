@@ -9,6 +9,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write('seeding all tables')
         call_command("user-seed")
+        call_command("grade-seed")
+        call_command("size-seed")
         self.stdout.write('done.')
 
 

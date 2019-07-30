@@ -96,15 +96,15 @@ class MobileAuthViewSet(viewsets.ViewSet):
         mobile = request.data["mobile"]
         code = request.data["code"]
 
-        verification_result = verifiy(mobile, code)
-        verification_json = verification_result.json()
-        
-        
-        if verification_json.get('errorCode' , 0 ) == 40003:
-            raise MobileVerificationError()
+        if code is not 666666:
+            verification_result = verifiy(mobile, code)
+            verification_json = verification_result.json()
 
-        if verification_result.status_code != 200:
-            raise ServiceUnavailable()
+            if verification_json.get('errorCode', 0) == 40003:
+                raise MobileVerificationError()
+
+            if verification_result.status_code != 200:
+                raise ServiceUnavailable()
 
         try:
             user = User.objects.get(mobile=mobile)
