@@ -63,6 +63,11 @@ def size_seed():
             "code": "14-15"
         },
         {
+            "nameAr": "15-16",
+            "nameEn": "15-16",
+            "code": "15-16"
+        },
+        {
             "nameAr": "صغير",
             "nameEn": "Small",
             "code": "S"
@@ -75,6 +80,11 @@ def size_seed():
             "nameAr": "كبير",
             "nameEn": "Large",
             "code": "L"
+        },
+        {
+            "nameAr": "كبير جدا",
+            "nameEn": "XLarge",
+            "code": "XL"
         }
     ]
     for size in sizes:

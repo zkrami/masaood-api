@@ -14,6 +14,8 @@ class Command(BaseCommand):
         call_command("state-seed")
         call_command("center-seed")
         call_command("media-seed")
+        call_command("product-seed")
+
 
 
         self.stdout.write('done.')

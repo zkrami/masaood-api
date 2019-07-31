@@ -8,29 +8,29 @@ def grades_seed():
 
     grades = [
         {
-            "nameEn": "Kg",
-            "nameAr": "حضانة"
+            "code" : "KG" , 
+            "nameAr": "حضانة",
+            "nameEn": "KG"
         },
         {
-            "nameAr": "",
-            "nameEn": "",
+            "code" : "C1", 
+            "nameEn": "Cycle One",
+            "nameAr": "حلقة أولى",
         },
         {
-            "nameAr": "",
-            "nameEn": "",
+            "code" : "C2", 
+            "nameEn": "Cycle Two",
+            "nameAr": "حلقة ثانية",
         },
         {
-            "nameAr": "",
-            "nameEn": "",
-        },
-        {
-            "nameAr": "",
-            "nameEn": "",
+            "code" : "C3", 
+            "nameEn": "Cycle Three",
+            "nameAr": "حلقة ثالثة",
         }
     ]
 
     for grade in grades:
-        Grade.objects.update_or_create(**grade)
+        Grade.objects.update_or_create(code=grade["code"] , defaults=grade)
 
 
 class Command(BaseCommand):
