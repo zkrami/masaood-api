@@ -14,7 +14,7 @@ from shared.mixins.per_action_serializer import PerActionSerializerMixin
 
 from rest_framework.generics import RetrieveUpdateAPIView
 from django.contrib.auth.models import Group
-
+from user import filters 
 
 class UserViewSet(PerActionSerializerMixin,  RetrieveUpdateAPIView):
     queryset = User.objects.all()
@@ -37,7 +37,7 @@ class AdminUserViewSet(PerActionSerializerMixin, ModelViewSet):
         'list': AdminDetailUserSerializer,
         'retrieve': AdminDetailUserSerializer
     }
-    filterset_fields = []
+    filter_class = filters.UserFilter
 
 
 class GroupsViewSet(GenericViewSet, RetrieveModelMixin, ListModelMixin):

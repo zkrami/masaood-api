@@ -5,7 +5,7 @@ from rest_framework.exceptions import APIException
 class ServiceUnavailable(APIException):
     status_code = 503
 
-    default_code = 'service_unavailable'
+    default_code = 'SERVICE_UNAVAILABLE'
     default_detail = {
         "status": status_code,
         "code": default_code,
