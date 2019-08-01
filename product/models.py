@@ -7,7 +7,7 @@ from rest_framework.serializers import ModelSerializer
 class Grade(models.Model):
     nameEn = models.CharField(max_length=255)
     nameAr = models.CharField(max_length=255)
-    code = models.CharField(max_length=255, default='', unique=True)
+    code = models.CharField(max_length=20, default='', unique=True)
     createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -17,7 +17,7 @@ class Grade(models.Model):
 class Size(models.Model):
     nameAr = models.CharField(max_length=255)
     nameEn = models.CharField(max_length=255)
-    code = models.CharField(max_length=255, default='', unique=True)
+    code = models.CharField(max_length=20, default='', unique=True)
     createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
