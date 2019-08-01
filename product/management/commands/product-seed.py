@@ -937,7 +937,7 @@ def products_seed():
             "size":"6-7"
          }
       ],
-      "media":"kindergarten_boys_formal_shirt.png",
+      "media":"",
       "grade":"KG",
       "gender":"male",
       "nameEn":"Boys Uniform Shorts",
@@ -1177,7 +1177,7 @@ def products_seed():
             "size":"11-12"
          }
       ],
-      "media":"cycle_one_boys_formal_shirt.png",
+      "media":"", 
       "grade":"C1",
       "gender":"male",
       "nameEn":"Boys Uniform Shorts",
