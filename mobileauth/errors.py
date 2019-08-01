@@ -3,7 +3,7 @@ from rest_framework.exceptions import APIException
 
 
 class ServiceUnavailable(APIException):
-    status_code = 503
+    status_code = 440
 
     default_code = 'SERVICE_UNAVAILABLE'
     default_detail = {
@@ -15,7 +15,7 @@ class ServiceUnavailable(APIException):
 
 
 class MobileVerificationError(APIException):
-    status_code = 400
+    status_code = 441
 
     default_code = 'MOBILE_VERIFICATION_ERROR'
     default_detail = {

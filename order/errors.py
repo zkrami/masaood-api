@@ -3,7 +3,7 @@ from rest_framework.exceptions import APIException
 
 
 class OrderIsNotAssigned(APIException):
-    status_code = 400
+    status_code = 452
 
     default_code = 'ORDER_IS_NOT_ASSIGNED'
     default_detail = {
@@ -14,7 +14,7 @@ class OrderIsNotAssigned(APIException):
 
 
 class OrderIsDelivered(APIException):
-    status_code = 400
+    status_code = 453
 
     default_code = 'ORDER_IS_DELIVERED'
     default_detail = {
@@ -25,7 +25,7 @@ class OrderIsDelivered(APIException):
 
 
 class CenterHasNoProduct(APIException):
-    status_code = 400
+    status_code = 454
     default_code = 'CENTER_HAS_NO_PRODUCT'
     default_detail = {
         "status": status_code,
