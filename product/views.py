@@ -38,6 +38,12 @@ class ProductViewSet(PerActionSerializerMixin, ModelViewSet):
     serializer_class = ProductSerializer
     permission_classes = ()  # @todo permissoins
 
+    def get_queryset(self):
+        user = self.request.user 
+        if user.groups.filter(name="user").count() == 1:
+            return Product.objects.filter(status="available") 
+        return Product.objects.all() 
+
     serializer_action_classes = {
         'list': ProductDetailSerializer,
         'retrieve': ProductDetailSerializer
