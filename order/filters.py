@@ -18,5 +18,7 @@ class OrderFilter(filters.FilterSet):
             'canceledAt' : "__all__" , 
             'deliveredAt' : "__all__" , 
             'assignedAt' : "__all__" , 
+            'deleted' : "__all__" , 
+            'archived' : "__all__" 
         }
 

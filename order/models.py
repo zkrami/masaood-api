@@ -43,10 +43,10 @@ class Order(models.Model):
     deliveredAt = models.DateTimeField(null=True)
     assignedAt = models.DateTimeField(null=True)
     deliveringAt = models.DateTimeField(null=True)
-    packedAt = models.DateField(null=True) 
-    isDelivery = models.BooleanField(default=True) 
-    
-
+    packedAt = models.DateField(null=True)
+    isDelivery = models.BooleanField(default=True)
+    deleted = models.BooleanField(default=False)
+    archived = models.BooleanField(default=False)
 
 
 class OrderProduct(models.Model):

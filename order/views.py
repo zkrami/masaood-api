@@ -2,7 +2,7 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.generics import UpdateAPIView
 from rest_framework.mixins import UpdateModelMixin
 from .models import Order, OrderProduct, StatusEnum
-from .serializers import OrderSerialier, OrderDetailSerializer, OrderProductSerializer, OrderAssignSerializer, OrderDeliverSerializer, OrderCancelSerializer, OrderPackSerializer, OrderDeliveringSerializer
+from .serializers import OrderSerialier, OrderDetailSerializer, OrderProductSerializer, OrderAssignSerializer, OrderDeliverSerializer, OrderCancelSerializer, OrderPackSerializer, OrderDeliveringSerializer, OrderArchiveSerializer, OrderDeleteSerializer
 from shared.mixins.per_action_serializer import PerActionSerializerMixin
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from shared.permissions import IsOwner
@@ -42,8 +42,17 @@ class OrderAdminViewSet(PerActionSerializerMixin, ModelViewSet):
         'cancel': OrderCancelSerializer,
         'deliver': OrderDeliverSerializer,
         'pack': OrderPackSerializer,
-        'delivering': OrderDeliveringSerializer
+        'delivering': OrderDeliveringSerializer,
+        'destroy': OrderDeleteSerializer,
+        'archive': OrderArchiveSerializer
     }
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response({'message': 'deleted'})
 
     @action(detail=True, methods=['put'])
     def assign(self, request, pk=None):
@@ -52,6 +61,14 @@ class OrderAdminViewSet(PerActionSerializerMixin, ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response({'message': 'assigned'})
+
+    @action(detail=True, methods=['put'])
+    def archive(self, request, pk=None):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response({'message': 'archived'})
 
     @action(detail=True, methods=['put'])
     def cancel(self, request, pk=None):

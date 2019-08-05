@@ -126,3 +126,24 @@ class OrderDeliverSerializer(ModelSerializer):
         attrs["status"] = StatusEnum.delivered.value
         attrs["deliveredAt"] = datetime.now()
         return super().validate(attrs)
+
+
+class OrderDeleteSerializer(ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ()
+
+    def validate(self, attrs):
+        attrs["deleted"] = True 
+        return super().validate(attrs)
+
+
+
+class OrderArchiveSerializer(ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ()
+
+    def validate(self, attrs):
+        attrs["archived"] = True 
+        return super().validate(attrs)    
