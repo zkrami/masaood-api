@@ -31,10 +31,16 @@ class AbstractProduct(models.Model):
         ("male", "Male")
     )
 
+    StatusChoices = (("unavailable", "unavailable"),
+                     ("available", "available"))
+                     
     nameEn = models.CharField(max_length=255)
     nameAr = models.CharField(max_length=255)
     descriptionAr = models.TextField(default='')
     descriptionEn = models.TextField(default='')
+
+    status = models.CharField(max_length=20, choices=StatusChoices, default="available")
+
 
     images = models.ManyToManyField(media.models.Media)
 
@@ -44,6 +50,7 @@ class AbstractProduct(models.Model):
     gender = models.CharField(max_length=20, choices=GenderChoices)
 
     createdAt = models.DateTimeField(auto_now_add=True)
+
 
     def __str__(self):
         return self.nameEn

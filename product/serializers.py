@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, RelatedField, ManyRelatedField
+from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, RelatedField, ManyRelatedField , ListSerializer 
 from .models import AbstractProduct, Grade, Size, Product
 # Create your models here.
 
@@ -16,19 +16,34 @@ class GradeSerializer(ModelSerializer):
         model = Grade
         exclude = ("createdAt",)
 
+
 class ProductSerializer(ModelSerializer):
-    
-    sizeId = PrimaryKeyRelatedField(queryset=Size.objects.all(), required=True , source="size")
-    abstractProductId = PrimaryKeyRelatedField(label='AbstractProduct', queryset=AbstractProduct.objects.all(), required=True , source="abstractProduct")
+
+    sizeId = PrimaryKeyRelatedField(
+        queryset=Size.objects.all(), required=True, source="size")
+    abstractProductId = PrimaryKeyRelatedField(
+        label='AbstractProduct', queryset=AbstractProduct.objects.all(), required=True, source="abstractProduct")
+
     class Meta:
         model = Product
-        exclude = ('createdAt', 'abstractProduct' , 'size')
+        exclude = ('createdAt', 'abstractProduct', 'size')
+
+
+class ProductDetailListSerializer(ListSerializer):
+
+    def to_representation(self, data):
+        
+        user = self.context['request'].user
+        if user.groups.filter(name="user").count() == 1 : 
+            data = data.filter(status="available")
+        return super().to_representation(data)
 
 
 class ProductDetailSerializer(ModelSerializer):
 
     class Meta:
         model = Product
+        list_serializer_class  = ProductDetailListSerializer
         exclude = ('createdAt',)
         depth = 1
 

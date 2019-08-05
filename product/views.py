@@ -30,6 +30,12 @@ class AbstractProductViewSet(PerActionSerializerMixin, ModelViewSet):
     }
     filter_class = filters.AbstractProductFilter
 
+    def get_queryset(self):
+        user = self.request.user
+        if user.groups.filter(name="user").count() == 1:
+            return AbstractProduct.objects.filter(status="available")
+        return AbstractProduct.objects.all()
+
     # ["nameEn" , "nameAr" , "descriptionAr" , "descriptionEn" , "code" , "image" , "grade" , "price" , "gender" , "status" , "createdAt"]
 
 
@@ -39,10 +45,11 @@ class ProductViewSet(PerActionSerializerMixin, ModelViewSet):
     permission_classes = ()  # @todo permissoins
 
     def get_queryset(self):
-        user = self.request.user 
+        user = self.request.user
         if user.groups.filter(name="user").count() == 1:
-            return Product.objects.filter(status="available") 
+             return Product.objects.filter(status="available") 
         return Product.objects.all() 
+  
 
     serializer_action_classes = {
         'list': ProductDetailSerializer,
