@@ -11,6 +11,8 @@ from datetime import datetime
 import json
 import base64
 from .errors import ServiceUnavailable, MobileVerificationError
+from .models import VerificationToken
+
 
 # @todo refactor
 
@@ -89,21 +91,29 @@ class MobileAuthViewSet(viewsets.ViewSet):
         group = Group.objects.get(name='user')
         user.groups.add(group)
 
-        return Response({"message": "Created successfully", "verified": user.verified})
+        code = get_random_string(length=6, allowed_chars='1234567890')
+        token, tokenCreated = VerificationToken.objects.get_or_create(key=mobile, code=code)
+
+        return Response({"message": "Created successfully", "verified": user.verified , "code" : code })
 
     @action(detail=False, methods=['post'])
     def verify(self, request):
         mobile = request.data["mobile"]
         code = request.data["code"]
-        if code != "666666":
-            verification_result = verifiy(mobile, code)
-            verification_json = verification_result.json()
+        if code != "666666":                    
+            # @temporairly 
+            try:                
+                VerificationToken.objects.get(key=mobile, code=code)                
+            except VerificationToken.DoesNotExist:
+                verification_result = verifiy(mobile, code)
+                verification_json = verification_result.json()
 
-            if verification_json.get('errorCode', 0) == 40003:
-                raise MobileVerificationError()
+                if verification_json.get('errorCode', 0) == 40003:
+                    raise MobileVerificationError()
 
-            if verification_result.status_code != 200:
-                raise ServiceUnavailable()
+                if verification_result.status_code != 200:
+                    raise ServiceUnavailable()
+
 
         try:
             user = User.objects.get(mobile=mobile)

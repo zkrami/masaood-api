@@ -968,21 +968,7 @@ def products_seed():
       "gender":"female",
       "nameEn":"Girls Uniform Pinafore",
       "nameAr":"فستان رياض الاطفال كوم طويل"
-   },
-   {
-      "products":[
-         {
-            "barcode":"2200008537654",
-            "code":"KGFDF-4-5-S",
-            "price":45,
-            "size":"4-5"
-         }
-      ],
-      "grade":"KG",
-      "gender":"female",
-      "nameEn":"Girls Uniform Pinafore",
-      "nameAr":"فستان رياض الاطفال  كوم قصير"
-   },
+   },   
    {
       "products":[
          {
@@ -996,6 +982,12 @@ def products_seed():
             "code":"KGFDF-6-7-S",
             "price":45,
             "size":"6-7"
+         } , 
+         {
+            "barcode":"2200008537654",
+            "code":"KGFDF-4-5-S",
+            "price":45,
+            "size":"4-5"
          }
       ],
       "grade":"KG",
