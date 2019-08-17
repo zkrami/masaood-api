@@ -83,8 +83,8 @@ class MobileAuthViewSet(viewsets.ViewSet):
 
         verification_result = send_verification(mobile)
 
-        if verification_result.status_code != 200:
-            raise ServiceUnavailable()
+        #if verification_result.status_code != 200:
+         #   raise ServiceUnavailable()
 
         user, created = User.objects.get_or_create(mobile=mobile)
         # add user role
