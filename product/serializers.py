@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, RelatedField, ManyRelatedField , ListSerializer 
+from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, RelatedField, ManyRelatedField, ListSerializer, ValidationError
 from .models import AbstractProduct, Grade, Size, Product
 # Create your models here.
 
@@ -32,9 +32,9 @@ class ProductSerializer(ModelSerializer):
 class ProductDetailListSerializer(ListSerializer):
 
     def to_representation(self, data):
-        
+
         user = self.context['request'].user
-        if user.groups.filter(name="user").count() == 1 : 
+        if user.groups.filter(name="user").count() == 1:
             data = data.filter(status="available")
         return super().to_representation(data)
 
@@ -43,7 +43,7 @@ class ProductDetailSerializer(ModelSerializer):
 
     class Meta:
         model = Product
-        list_serializer_class  = ProductDetailListSerializer
+        list_serializer_class = ProductDetailListSerializer
         exclude = ('createdAt',)
         depth = 1
 
@@ -59,10 +59,26 @@ class AbstractProductDetailSerializer(ModelSerializer):
 
 class AbstractProductSerializer(ModelSerializer):
 
-    gradeId = PrimaryKeyRelatedField(queryset=Grade.objects.all() , source="grade")
+    gradeId = PrimaryKeyRelatedField(
+        queryset=Grade.objects.all(), source="grade")
     imagesId = PrimaryKeyRelatedField(
         allow_empty=False, many=True, queryset=Media.objects.all(), source="images")
 
     class Meta:
         model = AbstractProduct
-        exclude = ('createdAt', 'grade', 'images')
+        exclude = ('createdAt', 'grade', 'images', 'order')
+
+
+class AbstractProductOrderSerializer(ModelSerializer):
+     def validate(self, attrs):
+        order = attrs["order"]
+
+        if order < 0 or order > AbstractProduct.objects.count():
+            raise ValidationError(
+                {"order": "order must be in range of [1 , number of products]"}, "ORDER_VALIDATION_ERROR")
+
+        return attrs 
+
+     class Meta:
+        model = AbstractProduct
+        fields = ("order" , )

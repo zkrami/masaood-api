@@ -1,11 +1,16 @@
 from rest_framework.filters import OrderingFilter
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from .models import AbstractProduct, Size, Grade, Product
-from .serializers import AbstractProductSerializer, SizeSerializer, GradeSerializer, AbstractProductDetailSerializer, ProductSerializer, ProductDetailSerializer
+from .serializers import AbstractProductSerializer, SizeSerializer, GradeSerializer, AbstractProductDetailSerializer, ProductSerializer, ProductDetailSerializer , AbstractProductOrderSerializer
 from shared.mixins.per_action_serializer import PerActionSerializerMixin
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
 from shared.permissions import IsAdminOrReadOnly
 from product import filters
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+
+
 
 
 class SizeViewSet(ModelViewSet):
@@ -26,7 +31,8 @@ class AbstractProductViewSet(PerActionSerializerMixin, ModelViewSet):
     permission_classes = ()  # @todo permissoins
     serializer_action_classes = {
         'list': AbstractProductDetailSerializer,
-        'retrieve': AbstractProductDetailSerializer
+        'retrieve': AbstractProductDetailSerializer , 
+        'order' : AbstractProductOrderSerializer
     }
     filter_class = filters.AbstractProductFilter
 
@@ -35,6 +41,20 @@ class AbstractProductViewSet(PerActionSerializerMixin, ModelViewSet):
         if user.groups.filter(name="user").count() == 1:
             return AbstractProduct.objects.filter(status="available")
         return AbstractProduct.objects.all()
+
+    @action(detail=True, methods=['put'])
+    def order(self, request, pk=None):
+
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        manager = AbstractProduct.objects ;  
+        order = request.data["order"]
+        manager.set_order(instance , order) 
+
+        
+        return Response({'message': 'changed'})
 
     # ["nameEn" , "nameAr" , "descriptionAr" , "descriptionEn" , "code" , "image" , "grade" , "price" , "gender" , "status" , "createdAt"]
 

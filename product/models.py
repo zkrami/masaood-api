@@ -24,18 +24,45 @@ class Size(models.Model):
         return self.nameAr
 
 
+class AbstractProductManager(models.Manager):
+    
+    def delete(self):
+        # todo implement delete 
+        pass 
+        
+    def create(self, **kwargs):    
+        kwargs["order"] = self.count() + 1
+        return super().create(**kwargs)
+
+    def set_order(self, instance , order):        
+        if instance.order == order:
+            return
+
+        prev_order = instance.order 
+
+       
+     
+        if prev_order > order :        
+            self.filter(order__gte=order , order__lte=prev_order).update(order=models.F('order') + 1)
+        else:
+            self.filter(order__gte=prev_order , order__lte=order).update(order=models.F('order') - 1)
+
+        instance.order = order
+        instance.save()
+
 class AbstractProduct(models.Model):
 
     GenderChoices = (
         ("female", "Female"),
         ("male", "Male")
     )
+    objects = AbstractProductManager()
 
     StatusChoices = (("unavailable", "unavailable"),
                      ("available", "available"))
-                     
     nameEn = models.CharField(max_length=255)
     nameAr = models.CharField(max_length=255)
+    order = models.IntegerField(default=None, null=True)
     descriptionAr = models.TextField(default='')
     descriptionEn = models.TextField(default='')
 
@@ -50,6 +77,7 @@ class AbstractProduct(models.Model):
     gender = models.CharField(max_length=20, choices=GenderChoices)
 
     createdAt = models.DateTimeField(auto_now_add=True)
+  
 
 
     def __str__(self):
