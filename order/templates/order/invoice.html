@@ -67,9 +67,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
                         {% for orderProduct in order.products.all %}
 
+                    <tr>
+                      
                         {% if forloop.counter|divisibleby:2 %}
                         <td style="border:solid 1px #000; padding-top:5px; padding-left:2px; padding-right: 2px;  color:#353c4e ; ">
                             {{orderProduct.count}}
@@ -102,8 +103,9 @@
                         {% endif  %}
 
 
-                        {% endfor %}
                     </tr>
+                    {% endfor %}
+
                 </tbody>
 
             </table>
