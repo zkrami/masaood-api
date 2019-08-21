@@ -10,6 +10,11 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from order import filters, errors
 from django.core.exceptions import ObjectDoesNotExist
+from io import BytesIO , StringIO
+import pdfkit 
+from django.template.loader import get_template
+from django.http import HttpResponse
+
 
 
 # todo prevent edit
@@ -123,3 +128,18 @@ class OrderAdminViewSet(PerActionSerializerMixin, ModelViewSet):
         self.perform_update(serializer)
 
         return Response({'message': 'delivering'})
+    
+    @action(detail=True , methods=['get'])
+    def print(self,  request , pk=None):
+        instance = self.get_object()
+        template = get_template("order/invoice.html")
+        html  = template.render({"order": instance})
+        pdf = pdfkit.from_string(html,None) 
+
+        if not pdf.err:            
+            return HttpResponse(pdf, content_type='application/pdf')
+        return HttpResponse('We had some errors' , 400 )
+        
+
+
+
