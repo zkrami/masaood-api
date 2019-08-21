@@ -8,6 +8,7 @@
         @page {
             size: A4;
             margin: 1cm;
+            zoom: 200%;
         }
 
         /*  :root {
@@ -26,45 +27,8 @@
             margin: 0;
             padding: 0;
             font-family: "Open Sans", sans-serif;
-        }
-
-        .container {
-            width: 100%;
-            padding: 1cm;
-            box-sizing: border-box;
-        }
-
-        .flex-container {
-            display: flex;
+            font-size: 20px;
             text-align: center;
-            justify-content: space-between;
-            width: 100%;
-        }
-
-        .order-products,
-        table {
-            width: 100%;
-            text-align: center;
-        }
-
-        table {
-            border-collapse: collapse;
-            padding: 0;
-            margin: 0;
-
-        }
-
-        table td {
-            border: solid 1.5px #eee;
-            padding: 5px;
-        }
-
-        table thead {
-            font-weight: bold;
-        }
-
-        table tbody tr:nth-child(2n + 1) {
-            background: #f2f2f2;
         }
     </style>
 </head>
@@ -73,35 +37,70 @@
     <div class="container">
 
         <div class="client flex-container">
-            <h3 class="name"><b>Full Name: </b>{{order.user.first_name}} {{order.user.last_name}} </h3>
-            <h3 class="mobile"><b>Mobile: </b> {{order.user.mobile}}</h3>
+            <p style="padding:0">
+                <span class="name"><b style="color:#292f85">Full Name: </b>{{order.user.first_name}}
+                    {{order.user.last_name}} </span>
+                &nbsp;&nbsp;&nbsp;
+                <span class="mobile"><b style="color:#292f85">Mobile: </b> {{order.user.mobile}}</span>
+            </p>
         </div>
+
         <div class="order-info flex-container">
-            <h3 class="total"><b>Total: </b> {{order.total}}</h3>
-            <h3 class="status"><b>Status: </b> {{order.status}}</h3>
-            <h3 class="date"><b>Date: </b>{{order.createdAt}}</h3>
+            <p style="padding:0">
+                <span class="total"><b style="color:#292f85">Total: </b> {{order.total}}</span> &nbsp;&nbsp;&nbsp;
+                <span class="status"><b style="color:#292f85">Status: </b> {{order.status}}</span> &nbsp;&nbsp;&nbsp;
+                <span class="date"><b style="color:#292f85">Date: </b>{{order.createdAt}}</span>
+            </p>
         </div>
         <div class="order-products">
-            <table>
+            <table style="border-collapse: collapse">
                 <thead>
                     <tr>
-                        <td>Count</td>
-                        <td>Code</td>
-                        <td>Price</td>
-                        <td>Size</td>
-                        <td>Base Product</td>
+                        <td style="border:solid 1px #000; padding-top:5px; color:#292f85 ; font-weight: bold ">Count
+                        </td>
+                        <td style="border:solid 1px #000; padding-top:5px; color:#292f85 ; font-weight: bold ">Code</td>
+                        <td style="border:solid 1px #000; padding-top:5px; color:#292f85 ; font-weight: bold ">Price
+                        </td>
+                        <td style="border:solid 1px #000; padding-top:5px; color:#292f85 ; font-weight: bold ">Size</td>
+                        <td style="border:solid 1px #000; padding-top:5px; color:#292f85 ; font-weight: bold ">Base
+                            Product</td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         {% for orderProduct in order.products.all %}
-                        <td>
+
+                        {% if forloop.counter|divisibleby:2 %}
+                        <td style="border:solid 1px #000; padding-top:5px; color:#353c4e ; ">
                             {{orderProduct.count}}
                         </td>
-                        <td>{{orderProduct.product.code}}</td>
-                        <td>{{orderProduct.product.price}}</td>
-                        <td>{{orderProduct.product.size.nameEn}}</td>
-                        <td>{{orderProduct.product.abstractProduct.nameEn}}</td>
+                        <td style="border:solid 1px #000; padding-top:5px; color:#353c4e ; ">
+                            {{orderProduct.product.code}}
+                        </td>
+                        <td style="border:solid 1px #000; padding-top:5px; color:#353c4e ; ">
+                            {{orderProduct.product.price}}
+                        </td>
+                        <td style="border:solid 1px #000; padding-top:5px; color:#353c4e ; ">
+                            {{orderProduct.product.size.nameEn}}</td>
+                        <td style="border:solid 1px #000; padding-top:5px; color:#353c4e ; ">
+                            {{orderProduct.product.abstractProduct.nameEn}}</td>
+                        {% else %}
+                        <td style=" background-color: #f5f5f5; border:solid 1px #000; padding-top:5px; color:#353c4e ; ">
+                            {{orderProduct.count}}
+                        </td>
+                        <td style=" background-color: #f5f5f5; border:solid 1px #000; padding-top:5px; color:#353c4e ; ">
+                            {{orderProduct.product.code}}
+                        </td>
+                        <td style=" background-color: #f5f5f5; border:solid 1px #000; padding-top:5px; color:#353c4e ; ">
+                            {{orderProduct.product.price}}
+                        </td>
+                        <td style=" background-color: #f5f5f5; border:solid 1px #000; padding-top:5px; color:#353c4e ; ">
+                            {{orderProduct.product.size.nameEn}}</td>
+                        <td style="background-color: #f5f5f5;border:solid 1px #000; padding-top:5px; color:#353c4e ; ">
+                            {{orderProduct.product.abstractProduct.nameEn}}</td>
+                      
+                        {% endif  %}
+
 
                         {% endfor %}
                     </tr>

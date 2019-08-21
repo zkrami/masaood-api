@@ -11,10 +11,9 @@ from rest_framework.response import Response
 from order import filters, errors
 from django.core.exceptions import ObjectDoesNotExist
 from io import BytesIO , StringIO
-import pdfkit 
+import xhtml2pdf.pisa as pisa
 from django.template.loader import get_template
 from django.http import HttpResponse
-
 
 
 # todo prevent edit
@@ -134,10 +133,11 @@ class OrderAdminViewSet(PerActionSerializerMixin, ModelViewSet):
         instance = self.get_object()
         template = get_template("order/invoice.html")
         html  = template.render({"order": instance})
-        pdf = pdfkit.from_string(html,None) 
-
+        result = BytesIO()
+        
+        pdf = pisa.pisaDocument(html.encode("UTF-8") , dest=result )        
         if not pdf.err:            
-            return HttpResponse(pdf, content_type='application/pdf')
+            return HttpResponse(result.getvalue(), content_type='application/pdf')
         return HttpResponse('We had some errors' , 400 )
         
 
