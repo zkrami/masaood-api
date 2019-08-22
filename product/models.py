@@ -34,6 +34,13 @@ class AbstractProductManager(models.Manager):
         kwargs["order"] = self.count() + 1
         return super().create(**kwargs)
 
+    
+    def batch_order(self , batch):
+
+        for obj in batch: 
+            self.filter(pk=obj["id"]).update(order=obj["order"])
+        
+
     def set_order(self, instance , order):        
         if instance.order == order:
             return

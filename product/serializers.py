@@ -73,11 +73,27 @@ class AbstractProductOrderSerializer(ModelSerializer):
      def validate(self, attrs):
         order = attrs["order"]
 
-        if order < 0 or order > AbstractProduct.objects.count():
+        if order <= 0 or order > AbstractProduct.objects.count():
             raise ValidationError(
                 {"order": "order must be in range of [1 , number of products]"}, "ORDER_VALIDATION_ERROR")
 
         return attrs 
+
+     class Meta:
+        model = AbstractProduct
+        fields = ("order" , )
+
+
+
+class AbstractProductBatchOrderSerializer(ModelSerializer):
+     def validate(self, attrs):
+        order = attrs["order"]
+
+        if order <= 0 or order > AbstractProduct.objects.count():
+            raise ValidationError(
+                {"order": "order must be in range of [1 , number of products]"}, "ORDER_VALIDATION_ERROR")
+
+        return super().validate(attrs)  
 
      class Meta:
         model = AbstractProduct
