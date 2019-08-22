@@ -8,7 +8,8 @@ from shared.permissions import IsAdminOrReadOnly
 from product import filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
+from rest_framework.filters import OrderingFilter 
+ 
 
 class SizeViewSet(ModelViewSet):
     queryset = Size.objects.all()
@@ -33,6 +34,7 @@ class AbstractProductViewSet(PerActionSerializerMixin, ModelViewSet):
         'batch_order': AbstractProductBatchOrderSerializer
     }
     filter_class = filters.AbstractProductFilter
+    ordering = ['order']
 
     def get_queryset(self):
         user = self.request.user
@@ -42,7 +44,8 @@ class AbstractProductViewSet(PerActionSerializerMixin, ModelViewSet):
 
     @action(detail=False, methods=['put'], url_path="batch-order")
     def batch_order(self, request, pk=None):
-        serializer = self.get_serializer(data=request.data, many=True, partial=True)
+        serializer = self.get_serializer(
+            data=request.data, many=True, partial=True)
         serializer.is_valid(raise_exception=True)
 
         manager = AbstractProduct.objects
