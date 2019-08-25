@@ -14,9 +14,7 @@ class OrderProductSerializer(ModelSerializer):
 
 
 class OrderSerialier(WritableNestedModelSerializer):
-    # @todo
-    # DeliverAddress and Lat Lang Adress
-    # one of them required in case of absence of center
+ 
 
     products = OrderProductSerializer(many=True)
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
@@ -25,12 +23,20 @@ class OrderSerialier(WritableNestedModelSerializer):
 
     def create(self, validated_data):
     
+
         if "center" in validated_data:
             validated_data["status"] = StatusEnum.assigned.value
             validated_data["isDelivery"] = False
             validated_data["assignedAt"] = datetime.now()
         else:
             validated_data["isDelivery"] = True
+
+
+        # @temp assign default center to order 
+        if "center" not in validated_data:
+            validated_data["status"] = StatusEnum.assigned.value
+            validated_data["center"] = Center.objects.first()
+            validated_data["assignedAt"] = datetime.now()
 
 
         return super().create(validated_data)
