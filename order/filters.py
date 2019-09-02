@@ -21,5 +21,6 @@ class OrderFilter(filters.FilterSet):
             'deliveredAt': "__all__",
             'assignedAt': "__all__",
             'deleted': "__all__",
-            'archived': "__all__"
+            'archived': "__all__" , 
+            "invoice" : "__all__"
         }

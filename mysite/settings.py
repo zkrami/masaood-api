@@ -29,7 +29,7 @@ SECRET_KEY = 'rf4@13_be6red4^+uw=k*yash4f^q9j4*@)8#10^h6pbj78r_8'
 DEBUG = True
 
 ALLOWED_HOSTS = ['174.138.28.26', '104.217.253.15', '174.138.28.26',
-                 'localhost', 'localhost:4200']
+                 'localhost', 'localhost:4200' , "192.168.1.4" ]
 
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
