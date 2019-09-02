@@ -78,7 +78,7 @@ class OrderAssignSerializer(ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ("center",)
+        fields = ("center", "invoice")
 
     def validate(self, attrs):
         attrs["status"] = StatusEnum.assigned.value
@@ -91,7 +91,7 @@ class OrderCancelSerializer(ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ()
+        fields = ("invoice" , )
 
     def validate(self, attrs):
         attrs["status"] = StatusEnum.canceled.value
@@ -102,7 +102,7 @@ class OrderCancelSerializer(ModelSerializer):
 class OrderDeliveringSerializer(ModelSerializer):
     class Meta:
         model = Order
-        fields = ()
+        fields = ("invoice" , )
 
     def validate(self, attrs):
         attrs["status"] = StatusEnum.delivering.value 
@@ -113,7 +113,7 @@ class OrderDeliveringSerializer(ModelSerializer):
 class OrderPackSerializer(ModelSerializer):
     class Meta:
         model = Order
-        fields = ()
+        fields = ("invoice" , )
 
     def validate(self, attrs):
         attrs["status"] = StatusEnum.packed.value 
@@ -126,7 +126,7 @@ class OrderDeliverSerializer(ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ()
+        fields = ("invoice" , )
 
     def validate(self, attrs):
         attrs["status"] = StatusEnum.delivered.value
@@ -137,7 +137,7 @@ class OrderDeliverSerializer(ModelSerializer):
 class OrderDeleteSerializer(ModelSerializer):
     class Meta:
         model = Order
-        fields = ()
+        fields = ("invoice" , )
 
     def validate(self, attrs):
         attrs["deleted"] = True 
@@ -148,7 +148,7 @@ class OrderDeleteSerializer(ModelSerializer):
 class OrderArchiveSerializer(ModelSerializer):
     class Meta:
         model = Order
-        fields = ()
+        fields = ("invoice" , )
 
     def validate(self, attrs):
         attrs["archived"] = True 
