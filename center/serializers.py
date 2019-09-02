@@ -44,7 +44,7 @@ class CenterProductDetailSerializer(ModelSerializer):
 
 
 class CenterDetailSerializer(ModelSerializer):
-    products = CenterProductDetailSerializer(many=True, read_only=True)
+   # products = CenterProductDetailSerializer(many=True, read_only=True)
 
     class Meta:
         model = Center
