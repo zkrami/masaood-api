@@ -33,7 +33,7 @@ class Order(models.Model):
     deliveryLat = models.FloatField(default=0)
     devliveryLng = models.FloatField(default=0)
     total = models.DecimalField(decimal_places=4, max_digits=10)
-    invoice = models.CharField(default='' , max_length=255)
+    invoice = models.CharField(default='', null=True,  max_length=255)
 
     # enums
     status = models.CharField(
@@ -48,7 +48,6 @@ class Order(models.Model):
     isDelivery = models.BooleanField(default=True)
     deleted = models.BooleanField(default=False)
     archived = models.BooleanField(default=False)
-
 
 
 class OrderProduct(models.Model):
