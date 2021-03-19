@@ -4,7 +4,7 @@ chardet==3.0.4
 Django==2.2.3
 django-cors-headers==3.0.2
 django-filter==2.2.0
-djangorestframework==3.10.0
+djangorestframework==3.11.2
 djangorestframework-filters==1.0.0.dev0
 drf-access-policy==0.4.2
 drf-writable-nested==0.5.1
